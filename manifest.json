@@ -1,0 +1,25 @@
+{
+  "name": "东京家族行 2026",
+  "short_name": "东京家族行",
+  "description": "一家三口 7 天 6 晚 东京富士山家庭旅行 · 行程 / 车票 / 酒店 / 天气 / 母婴室",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf7f4",
+  "theme_color": "#e8796a",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

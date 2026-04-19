@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8796a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="东京家族行">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>东京家族行 · 4/20-26</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #1a1a2e;
+  background: #faf7f4;
+  min-height: 100vh;
+  overscroll-behavior: none;
+}
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: calc(68px + env(safe-area-inset-bottom));
+}
+#app { max-width: 640px; margin: 0 auto; }
+
+/* ====== Header ====== */
+#top-bar {
+  position: sticky; top: 0; z-index: 40;
+  background: linear-gradient(135deg, #e8796a 0%, #d65a47 100%);
+  color: white;
+  padding: 14px 18px 12px;
+  padding-top: calc(14px + env(safe-area-inset-top));
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+#top-bar .trip-title {
+  font-size: 17px; font-weight: 600; letter-spacing: 0.3px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+#top-bar .trip-sub {
+  font-size: 12px; opacity: .85; margin-top: 2px;
+}
+.countdown {
+  background: rgba(255,255,255,.22); padding: 4px 10px; border-radius: 10px;
+  font-size: 11px; font-weight: 600;
+}
+
+/* ====== Pages ====== */
+.page { display: none; padding: 16px; animation: fadeIn .25s ease-out; }
+.page.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== Cards ====== */
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06);
+}
+.card-title {
+  font-size: 15px; font-weight: 600; color: #1a1a2e;
+  margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.card-sub { font-size: 12.5px; color: #6b7280; margin-top: 2px; }
+
+/* ====== Section headings ====== */
+.section-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: #9ca3af; margin: 18px 4px 8px; font-weight: 600;
+}
+
+/* ====== Day hero ====== */
+.day-hero {
+  background: linear-gradient(135deg, #fde8e1 0%, #f9d7cc 100%);
+  border-radius: 16px;
+  padding: 16px 18px; margin-bottom: 14px;
+  position: relative; overflow: hidden;
+}
+.day-hero::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.4) 0%, transparent 70%);
+}
+.day-hero .day-num {
+  font-size: 11px; font-weight: 700; color: #d65a47; letter-spacing: 1.5px;
+}
+.day-hero .day-date {
+  font-size: 22px; font-weight: 700; color: #1a1a2e; margin: 2px 0 4px;
+}
+.day-hero .day-theme { font-size: 13px; color: #6b5d55; }
+.weather-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.6); padding: 6px 10px; border-radius: 20px;
+  font-size: 12px; margin-top: 8px; font-weight: 500;
+}
+
+/* ====== Timeline ====== */
+.timeline { position: relative; padding-left: 62px; }
+.timeline::before {
+  content: ''; position: absolute; left: 48px; top: 8px; bottom: 8px;
+  width: 2px; background: linear-gradient(to bottom, #e8796a 0%, #f9d7cc 100%);
+}
+.tl-item { position: relative; margin-bottom: 14px; }
+.tl-time {
+  position: absolute; left: -62px; top: 2px;
+  width: 38px; text-align: right;
+  font-size: 11px; font-weight: 700; color: #d65a47;
+  font-variant-numeric: tabular-nums;
+}
+.tl-item::before {
+  content: ''; position: absolute; left: -18px; top: 4px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #e8796a; border: 2px solid white;
+  box-shadow: 0 0 0 2px #e8796a;
+}
+.tl-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+.tl-desc { font-size: 13px; color: #4b5563; line-height: 1.55; white-space: pre-line; }
+
+/* ====== Action buttons ====== */
+.action-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.action-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 11px; border-radius: 18px;
+  background: #fff1ee; color: #d65a47;
+  font-size: 12px; font-weight: 500;
+  text-decoration: none;
+  border: 1px solid #fde8e1;
+}
+.action-btn:active { background: #fde8e1; }
+.action-btn.phone { background: #e6fffa; color: #047857; border-color: #d1fae5; }
+.action-btn.map { background: #eff6ff; color: #1e40af; border-color: #dbeafe; }
+
+/* ====== Status pills ====== */
+.pill {
+  display: inline-block; padding: 3px 9px; border-radius: 10px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
+}
+.pill.ok { background: #d1fae5; color: #047857; }
+.pill.warn { background: #fef3c7; color: #a16207; }
+.pill.alert { background: #fee2e2; color: #b91c1c; }
+.pill.info { background: #dbeafe; color: #1e40af; }
+
+/* ====== Alert / callout ====== */
+.callout {
+  border-left: 3px solid;
+  padding: 10px 12px; border-radius: 0 8px 8px 0;
+  margin: 10px 0; font-size: 13px; line-height: 1.6;
+}
+.callout.alert { background: #fef2f2; border-color: #dc2626; color: #7f1d1d; }
+.callout.warn { background: #fffbeb; border-color: #d97706; color: #78350f; }
+.callout.info { background: #eff6ff; border-color: #2563eb; color: #1e3a8a; }
+.callout.ok { background: #ecfdf5; border-color: #059669; color: #065f46; }
+
+/* ====== Checklist ====== */
+.check-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 2px; cursor: pointer; user-select: none;
+}
+.check-item input {
+  margin-top: 2px; width: 18px; height: 18px;
+  accent-color: #e8796a; flex-shrink: 0;
+}
+.check-item.done .check-label { text-decoration: line-through; color: #9ca3af; }
+.check-label { font-size: 13.5px; line-height: 1.5; }
+
+/* ====== Day tabs ====== */
+.day-tabs {
+  display: flex; gap: 6px; overflow-x: auto; padding: 4px;
+  margin-bottom: 8px; scrollbar-width: none;
+}
+.day-tabs::-webkit-scrollbar { display: none; }
+.day-tab {
+  flex-shrink: 0; padding: 7px 13px;
+  border-radius: 14px; background: #f3f4f6;
+  font-size: 12px; color: #4b5563; cursor: pointer;
+  white-space: nowrap; font-weight: 500;
+  border: 1px solid transparent;
+}
+.day-tab.active {
+  background: #e8796a; color: white; font-weight: 600;
+}
+
+/* ====== Bottom nav ====== */
+#bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+  display: flex; max-width: 640px; margin: 0 auto;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -2px 10px rgba(0,0,0,.04);
+}
+.nav-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 9px 4px 6px; cursor: pointer;
+  color: #9ca3af; font-size: 10.5px;
+  transition: color .15s;
+}
+.nav-btn.active { color: #e8796a; }
+.nav-btn .icon { font-size: 20px; margin-bottom: 2px; }
+
+/* ====== Misc ====== */
+.kv { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6; font-size: 13.5px; }
+.kv:last-child { border: none; }
+.kv .k { color: #6b7280; }
+.kv .v { color: #1a1a2e; font-weight: 500; text-align: right; }
+.big-num { font-size: 24px; font-weight: 700; color: #d65a47; font-variant-numeric: tabular-nums; }
+
+.hero-banner {
+  background: linear-gradient(135deg, #e8796a 0%, #d65a47 100%);
+  color: white; border-radius: 18px;
+  padding: 20px; margin-bottom: 14px; text-align: center;
+}
+.hero-banner .num { font-size: 42px; font-weight: 800; line-height: 1; }
+.hero-banner .label { font-size: 12px; opacity: .9; letter-spacing: 1px; margin-top: 4px; }
+.hero-banner .trip-dates { font-size: 13px; margin-top: 8px; font-weight: 500; }
+
+.decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.decision-card {
+  padding: 12px; border-radius: 12px;
+  background: white; border: 1px solid #f3f4f6;
+}
+.decision-card .emoji { font-size: 22px; }
+.decision-card .label { font-size: 11px; color: #9ca3af; margin-top: 4px; font-weight: 600; letter-spacing: .5px; }
+.decision-card .val { font-size: 13px; font-weight: 600; margin-top: 2px; }
+.decision-card.go { background: #ecfdf5; border-color: #d1fae5; }
+.decision-card.stop { background: #fef2f2; border-color: #fecaca; }
+.decision-card.warn { background: #fffbeb; border-color: #fed7aa; }
+.decision-card.info { background: #eff6ff; border-color: #bfdbfe; }
+
+.qr-card {
+  background: white; border-radius: 12px; padding: 14px;
+  border: 1px solid #f3f4f6; margin-bottom: 10px;
+}
+.qr-card .ticket-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.ticket-route {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 0; border-bottom: 1px dashed #e5e7eb;
+  margin-bottom: 8px;
+}
+.ticket-city { flex: 1; }
+.ticket-city .city { font-size: 15px; font-weight: 600; }
+.ticket-city .time { font-size: 18px; font-weight: 700; color: #1a1a2e; font-variant-numeric: tabular-nums; }
+.ticket-arrow { font-size: 20px; color: #e8796a; }
+
+/* Share banner & quick tips */
+.tip-banner {
+  display: flex; gap: 10px; padding: 11px 14px;
+  background: #fff9e6; border-radius: 12px; margin-bottom: 12px;
+  border-left: 3px solid #d97706; font-size: 13px;
+}
+
+/* Weather table */
+.weather-table {
+  width: 100%; border-collapse: collapse; font-size: 12.5px;
+}
+.weather-table th {
+  text-align: left; padding: 6px 4px; color: #9ca3af;
+  font-weight: 600; font-size: 10.5px; letter-spacing: .5px;
+  text-transform: uppercase; border-bottom: 1px solid #f3f4f6;
+}
+.weather-table td {
+  padding: 8px 4px; border-bottom: 1px solid #f9f7f4;
+  vertical-align: top;
+}
+.weather-table tr.highlight td { background: #fff1ee; }
+
+.small-muted { font-size: 11px; color: #9ca3af; }
+a { color: inherit; }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+<!-- ========== Top Bar ========== -->
+<header id="top-bar">
+  <div class="trip-title">
+    <span>🌸 东京家族行</span>
+    <span class="countdown" id="countdown">准备中</span>
+  </div>
+  <div class="trip-sub">4/20 - 4/26 · 一家三口 · v34 (4/19 weather)</div>
+</header>
+
+<!-- ========== Pages ========== -->
+
+<!-- PAGE: HOME -->
+<section class="page active" id="page-home">
+  <div class="hero-banner">
+    <div class="num" id="home-day">D?</div>
+    <div class="label" id="home-label">TOKYO FAMILY TRIP</div>
+    <div class="trip-dates">2026.04.20 → 2026.04.26</div>
+  </div>
+
+  <div class="section-label">🚨 关键决策</div>
+  <div class="decision-grid">
+    <div class="decision-card go">
+      <div class="emoji">🌸</div>
+      <div class="label">POWDER FLOWER</div>
+      <div class="val">4/25 去 粉蝶花</div>
+      <div class="small-muted" style="font-size:10.5px; margin-top:2px">vs 4/24 优 · 仍有轻雨可能</div>
+    </div>
+    <div class="decision-card stop">
+      <div class="emoji">🚫</div>
+      <div class="label">DAY 4</div>
+      <div class="val">4/23 跳过 大石公园</div>
+    </div>
+    <div class="decision-card warn">
+      <div class="emoji">☔</div>
+      <div class="label">DAY 5</div>
+      <div class="val">4/24 东京 室内</div>
+    </div>
+    <div class="decision-card info">
+      <div class="emoji">🧥</div>
+      <div class="label">4/22 本栖湖</div>
+      <div class="val">早晨 4°C 4 层保暖</div>
+    </div>
+  </div>
+
+  <div class="section-label">⏰ 出发前待办</div>
+  <div id="predeparture-card"></div>
+
+  <div class="section-label">📅 7 天总览 (tap 跳转)</div>
+  <div id="days-overview"></div>
+
+  <div class="section-label">⚡ 紧急快查</div>
+  <div class="card">
+    <div class="kv">
+      <span class="k">🇯🇵 救护车/火警</span>
+      <a class="v" href="tel:119" style="color:#dc2626">119</a>
+    </div>
+    <div class="kv">
+      <span class="k">🇯🇵 警察</span>
+      <a class="v" href="tel:110" style="color:#dc2626">110</a>
+    </div>
+    <div class="kv">
+      <span class="k">🇨🇳 驻日大使馆</span>
+      <a class="v" href="tel:+81334033388">+81-3-3403-3388</a>
+    </div>
+    <div class="kv">
+      <span class="k">旅游保险 24h</span>
+      <span class="v small-muted">查保单</span>
+    </div>
+  </div>
+
+  <div class="tip-banner">
+    💡 把这个网页加到手机主屏（Safari 分享 → 加到主屏），就像 App 一样用。
+  </div>
+</section>
+
+<!-- PAGE: DAY -->
+<section class="page" id="page-day">
+  <div class="day-tabs" id="day-tabs"></div>
+  <div id="day-content"></div>
+</section>
+
+<!-- PAGE: TICKETS -->
+<section class="page" id="page-tickets">
+  <div class="section-label">🚂 Eki-Net 车票（IC 卡刷闸用）</div>
+
+  <div class="callout info">
+    <strong>怎么用：</strong>两张 ICOCA 已绑定 Eki-Net。进闸 tap IC → 坐到指定席 → 车掌来就出示这个 app 的预约详情页。不需要纸票也没 QR 码。
+  </div>
+
+  <div id="tickets-list"></div>
+
+  <div class="callout warn">
+    🚨 <strong>待办：退 4/24 两张票</strong>（E16143 + E49558）—— Eki-Net 免费退截止 4/23 21:00
+  </div>
+</section>
+
+<!-- PAGE: HOTELS -->
+<section class="page" id="page-hotels">
+  <div class="section-label">🏨 酒店（4 家 5 晚）</div>
+  <div id="hotels-list"></div>
+</section>
+
+<!-- PAGE: MORE -->
+<section class="page" id="page-more">
+  <div class="section-label">📋 更多</div>
+
+  <div class="card" onclick="switchPage('weather')">
+    <div class="card-title">🌤 完整天气表</div>
+    <div class="card-sub">ECMWF + tenki.jp 双源 · 4/19 update</div>
+  </div>
+
+  <div class="card" onclick="switchPage('packing')">
+    <div class="card-title">🧳 行李清单（打钩版）</div>
+    <div class="card-sub">7 大类 · 出发前对照打钩</div>
+  </div>
+
+  <div class="card" onclick="switchPage('feeding')">
+    <div class="card-title">🍼 每日喂奶时间地点</div>
+    <div class="card-sub">含母婴室攻略</div>
+  </div>
+
+  <div class="card" onclick="switchPage('flights')">
+    <div class="card-title">✈️ 航班信息</div>
+    <div class="card-sub">深圳 ⇄ 羽田</div>
+  </div>
+
+  <div class="card" onclick="switchPage('maps')">
+    <div class="card-title">🗺 Google Maps 标星点</div>
+    <div class="card-sub">4 酒店 + 6 景点 + 5 餐厅</div>
+  </div>
+
+  <div class="card" onclick="switchPage('ekinet')">
+    <div class="card-title">🎫 Eki-Net 使用说明</div>
+    <div class="card-sub">IC 卡 tap 流程 + backup 方案</div>
+  </div>
+</section>
+
+<!-- PAGE: Weather -->
+<section class="page" id="page-weather">
+  <div class="section-label">🌤 完整天气 (4/19 update)</div>
+  <div class="card">
+    <table class="weather-table">
+      <thead>
+        <tr>
+          <th>日期</th><th>ECMWF</th><th>tenki.jp</th><th>气温</th>
+        </tr>
+      </thead>
+      <tbody id="weather-tbody"></tbody>
+    </table>
+  </div>
+  <div class="callout info">
+    数据源：open-meteo ECMWF IFS025（精确坐标）+ tenki.jp 日本気象協会。每日坐标按实际所在地点查。
+  </div>
+</section>
+
+<!-- PAGE: Packing -->
+<section class="page" id="page-packing">
+  <div class="section-label">🧳 行李清单</div>
+  <div class="callout ok">
+    出发前对着打勾。状态会自动保存。
+  </div>
+  <div id="packing-list"></div>
+</section>
+
+<!-- PAGE: Feeding -->
+<section class="page" id="page-feeding">
+  <div class="section-label">🍼 每日喂奶时间地点</div>
+  <div id="feeding-content"></div>
+</section>
+
+<!-- PAGE: Flights -->
+<section class="page" id="page-flights">
+  <div class="section-label">✈️ 航班</div>
+  <div class="card">
+    <div class="card-title">去程 4/20 一</div>
+    <div class="kv"><span class="k">深圳 SZX</span><span class="v">起飞</span></div>
+    <div class="kv"><span class="k">羽田 HND T2</span><span class="v">22:20 到达</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">回程 4/26 日</div>
+    <div class="kv"><span class="k">羽田 HND T3</span><span class="v">11:10 起飞</span></div>
+    <div class="kv"><span class="k">深圳 SZX</span><span class="v">下午到</span></div>
+  </div>
+  <div class="callout warn">
+    ⚠ 去程到 T2，酒店 Villa Fontaine 在 T3。需 T2→T3 连络巴士（免费，约 10 分钟）或地下连络通道（步行 15 分钟）
+  </div>
+</section>
+
+<!-- PAGE: Maps -->
+<section class="page" id="page-maps">
+  <div class="section-label">🗺 地图标星点</div>
+  <div class="callout ok">
+    全部已在 Google Maps 标星（2026-04-14 同步）。tap 打开 Google Maps。
+  </div>
+  <div id="maps-list"></div>
+</section>
+
+<!-- PAGE: Eki-Net guide -->
+<section class="page" id="page-ekinet">
+  <div class="section-label">🎫 Eki-Net 使用</div>
+  <div class="card">
+    <div class="card-title">✅ 怎么上车（官方确认）</div>
+    <div style="font-size:13px; line-height:1.7">
+      1. <strong>新宿 / 品川</strong>站 JR 改札：每人 tap 自己那张 ICOCA → 过闸（扣基本运赁）<br>
+      2. 找指定席座位（富士回游 1号車 16D+16C、常陸 6号車 3A+3B 等）<br>
+      3. 车掌来了：秀手机 Reservation Details 截图<br>
+      4. 到达站：同一张 ICOCA 刷出闸<br>
+    </div>
+  </div>
+  <div class="callout info">
+    <strong>ICOCA 余额：</strong>每张 ≥ ¥4,000（富士回游 ¥2,510/人 + 常陸 ¥2,310/人）
+  </div>
+  <div class="callout warn">
+    <strong>Backup：</strong>IC 卡失败 → JR 站「指定席券売機」用予約番号 + 信用卡 0936 打印纸票（免费）
+  </div>
+  <div class="card">
+    <div class="card-title">Eki-Net 会员号</div>
+    <div class="big-num">410760258</div>
+    <div class="small-muted" style="margin-top:4px">KAIYUEN WU</div>
+  </div>
+</section>
+
+</div>
+
+<!-- ========== Bottom Nav ========== -->
+<nav id="bottom-nav">
+  <div class="nav-btn active" data-page="home"><span class="icon">🏠</span><span>首页</span></div>
+  <div class="nav-btn" data-page="day"><span class="icon">📅</span><span>行程</span></div>
+  <div class="nav-btn" data-page="tickets"><span class="icon">🚂</span><span>车票</span></div>
+  <div class="nav-btn" data-page="hotels"><span class="icon">🏨</span><span>酒店</span></div>
+  <div class="nav-btn" data-page="more"><span class="icon">⋯</span><span>更多</span></div>
+</nav>
+
+<script>
+// ============ DATA ============
+
+const TRIP = {
+  days: [
+    {
+      n: 1, date: '2026-04-20', dow: '周一', title: '抵达',
+      theme: '今晚唯一目标：全家尽快躺平',
+      weather: { ecmwf: '阴 0% / 0mm', tenki: '晴時々曇 20%', temp: '13-23°C' },
+      hotel: { name: 'Villa Fontaine Grand Haneda T3', phone: '03-6302-0508', checkIn: '接近24:00' },
+      items: [
+        { time: '22:20', title: '到达羽田 T2', desc: '入境取行李' },
+        { time: '~23:15', title: 'T2→T3', desc: '免费连络巴士 10 分钟（深夜运行）\n或地下连络通道步行 15 分钟' },
+        { time: '~23:30', title: 'Villa Fontaine T3', desc: 'T3 直连酒店', map: 'Hotel+Villa+Fontaine+Grand+Haneda+Airport', phone: '03-6302-0508' },
+        { time: '24:00', title: '入住', desc: '喂奶、洗漱、睡觉' }
+      ]
+    },
+    {
+      n: 2, date: '2026-04-21', dow: '周二', title: '去河口湖 + 温泉',
+      theme: '轻装上阵，到了就泡汤',
+      weather: { ecmwf: '毛雨 49% / 2mm', tenki: '曇のち晴 40%', temp: '8-20°C' },
+      hotel: { name: '若草之宿 丸栄', phone: '+81-555-72-1371', checkIn: '15:00-17:00', note: '免费接驳车：到河口湖站后打电话给若草' },
+      items: [
+        { time: '09:15', title: 'Villa Fontaine 退房', desc: '截止 11:00，提前走留足换乘余量' },
+        { time: '10:00', title: '京急线 羽田 T3→品川', desc: '约 13 分钟 / 每 5-10 分钟一班' },
+        { time: '10:13', title: '品川站内 京急→JR 换乘', desc: 'IC 卡刷京急出站→再刷 JR 进站\n山手线 14/15 站台（外圈 新宿方向）' },
+        { time: '10:25', title: 'JR 山手线 品川→新宿', desc: '约 20 分钟' },
+        { time: '10:45', title: '新宿站换乘富士回游', desc: '便利店买便当\n富士回游从 9/10 站台发车\n(B1F EATo LUMINE 有哺乳室可喂奶)' },
+        { time: '11:34', title: '🚂 富士回游 93 号', desc: '新宿→河口湖\n1号車 16D+16C (D 侧看富士山)\n予約 E00960', pill: 'ok', pillText: 'IC 卡 tap' },
+        { time: '13:31', title: '到达河口湖站', desc: '' },
+        { time: '13:35', title: '🍜 午餐 ほうとう不動 駅前店', desc: '出站右转 1 分钟 · ¥1,320/人 · 榻榻米座席 · 有禁烟', map: 'Hoto+Fudo+Kawaguchiko+Station' },
+        { time: '14:00', title: '📞 打给若草接驳车', desc: '电话: +81-555-72-1371\n日语: "マルエイです、チェックインのお客です。河口湖駅にいます、お迎えをお願いします"', phone: '+81-555-72-1371' },
+        { time: '15:00', title: '入住若草之宿 丸栄', desc: '第一件事：前台预约包场私汤"芙蓉之汤"\n（仅 1 间，先到先得，30 分钟/¥1,650）' },
+        { time: '15:00-17:00', title: '♨️ 包场私汤温泉', desc: '晴天可看富士山\n宝宝榻榻米爬，大人轮流泡\n私汤: 14:00-22:00 / 次日 8:10-10:00\n\n💎 泡完推荐 八木崎公园散步\n若草→八木崎公園 步行 8 分钟 / 600m\n湖畔看富士山经典观景点', map: 'Yagisaki+Park+Kawaguchiko' },
+        { time: '17:30-19:00', title: '🍽 怀石料理晚餐', desc: '用餐地点由旅馆分配（房间 or 个室）\n四季和会席 · 海鲜+山里食材\n⚠ 食物过敏无法对应' }
+      ],
+      feeding: [
+        { time: '8:30', place: 'Villa Fontaine 酒店房间内' },
+        { time: '11:30', place: '富士回游车上哺乳室（多目的室·1-2号车之间·找列车员开锁）' },
+        { time: '14:30', place: '若草之宿丸荣房间内' },
+        { time: '17:30', place: '若草之宿丸荣房间内（⚠ 八木崎公园里没母婴室）' }
+      ]
+    },
+    {
+      n: 3, date: '2026-04-22', dow: '周三', title: '芝樱祭',
+      theme: '这天只安排芝樱一个景点 · 节奏放松',
+      weather: { ecmwf: '阴 3% / 0mm (本栖湖 5.7-16.2°C)', tenki: '晴のち曇 30% (4-20°C)', temp: '4-18°C ⚠冷', cold: true },
+      hotel: { name: 'Haostay Kawaguchiko', phone: '+81-555-28-4377', checkIn: '15:00-21:00', note: '红线巴士「大木」站 下车步行 400m · 客服 9:00-21:00' },
+      items: [
+        { time: '07:00', title: '♨️ 最后一次泡汤（可选）', desc: '若草大浴场 6:00 开放' },
+        { time: '07:30-08:30', title: '🍚 若草日式早餐', desc: '朝食会场 · 注重季节感的健康和食膳' },
+        { time: '08:30-08:55', title: '若草退房→河口湖站', desc: '免费送站车 9:00 班次（每 30 分钟一班）\n行李寄存河口湖站投币储物柜' },
+        { time: '09:15-09:30', title: '🚌 芝樱 Liner 60-637469', desc: '河口湖站→芝樱祭会场\n¥3,000 × 2 已订', pill: 'ok', pillText: '已订' },
+        { time: '10:00-14:00', title: '🌸 富士芝桜まつり', desc: '本栖湖东岸 · 海拔 900m\n⚠ 早晨 4°C 最冷！宝宝厚毯+保暖帽必戴\n\n多目的厕所在「彼得兔英式庭院」附近\n带哺乳巾在厕所或长椅上喂', map: 'Fuji+Shibazakura+Festival' },
+        { time: '14:00', title: '🚌 返回河口湖站', desc: '芝樱 Liner 返程' },
+        { time: '15:00-17:00', title: '取行李→Haostay', desc: '红线巴士「大木」站下车步行 400m\n或打车', map: 'Haostay+Kawaguchiko' },
+        { time: '18:00-20:00', title: '🍜 Haostay 附近晚餐', desc: '① Tonkatsu haostay（隔壁 · 4.9★ · 炸猪排 · ~21:00）\n② 甲州屋 koushuya（步行 8 分钟 · 4.9★ · 炸牛排 · 可预约）\n③ KANADE 和食（步行 10 分钟 · 4.7★ · ⚠ 周三可能休）' }
+      ],
+      feeding: [
+        { time: '7:45', place: '若草房间内（浮动·早餐后）' },
+        { time: '10:45', place: '⚠ 芝樱祭会场多目的厕所（彼得兔英式庭院附近·带哺乳巾）' },
+        { time: '13:45', place: '芝樱祭会场（选游客少的多目的厕所）' },
+        { time: '16:45', place: '河口湖站母婴室 or Haostay 房间内（17:00 入住后）' }
+      ]
+    },
+    {
+      n: 4, date: '2026-04-23', dow: '周四', title: '🚨 改方案：放弃大石公园',
+      theme: '大雨 90% / 8.2mm · 跳过大石直接候车',
+      weather: { ecmwf: '雨 92% / 7.9mm', tenki: '曇のち雨 70%', temp: '10-18°C', rain: true },
+      hotel: { name: '新高轮格兰王子', phone: '03-3447-1111', checkIn: '15:00 后', note: '港区高輪 3-13-1 · 品川站步行 10 分钟 / 700m' },
+      items: [
+        { time: '08:30-09:30', title: '🍳 Haostay 早餐', desc: '含早餐' },
+        { time: '10:00-11:00', title: 'Haostay 退房', desc: '退房最晚 10:00' },
+        { time: '11:00', title: '🚨 原计划大石公园 → 跳过', desc: '大雨 8.2mm / 92% 概率\n带 6 月龄宝宝不值得冒险', pill: 'alert', pillText: '改方案' },
+        { time: '11:00-12:00', title: '🚌 直接回河口湖站', desc: '红线巴士「大木」站上车→河口湖站\n(每 15 分钟一班)' },
+        { time: '12:00-13:00', title: '🍜 午餐 ほうとう不動', desc: '站前 1 分钟 · 室内避雨' },
+        { time: '13:00-15:30', title: '🛋 河口湖站候车', desc: '站内休息 / 喂奶 / 便利店\n取投币储物柜行李\n时间充裕不赶路' },
+        { time: '15:39', title: '🚂 富士回游 94 号', desc: '河口湖→新宿\n1号車 16A+16B (A 侧看富士山)\n17:45 到新宿\n予約 E55904', pill: 'ok', pillText: 'IC 卡 tap' },
+        { time: '17:45-18:30', title: '新宿→新高轮格兰王子', desc: '山手线品川→高轮口步行 10 分钟\n或打车 (带宝宝 + 行李推荐打车)' },
+        { time: '18:30', title: '入住新高轮格兰王子', desc: '高轮 3-13-1', map: 'Grand+Prince+Hotel+Shin+Takanawa' },
+        { time: '19:30-21:00', title: '🍽 晚餐（品川站或酒店附近）', desc: 'Ekipara / 驿便当 / 酒店内餐厅' }
+      ],
+      feeding: [
+        { time: '8:30', place: 'Haostay 房间内' },
+        { time: '11:30', place: '大石公园大石自然生活館 1F母婴室（⚠ 改方案跳过大石后，改河口湖站）' },
+        { time: '14:30', place: '河口湖站附近 (哺乳室 · 便利店) ' },
+        { time: '17:00', place: '富士回游车上多目的室（17:45 到新宿前喂完）' }
+      ]
+    },
+    {
+      n: 5, date: '2026-04-24', dow: '周五', title: '🚨 东京室内休整日',
+      theme: '东京大暴雨 25.8mm 93% · 室内行程',
+      weather: { ecmwf: '大雨 87% / 26.4mm', tenki: '雨時々曇 90%', temp: '10-17°C', rain: true },
+      hotel: { name: '新高轮格兰王子 (续)', phone: '03-3447-1111' },
+      items: [
+        { time: '09:00', title: '🍳 早餐自理', desc: '高轮口 Wing 高轮商場 1F 便利店/星巴克 or 品川站 Ekipara\n(新高轮不含早餐)' },
+        { time: '10:30-13:00', title: '🏢 上午 Option A: 森美術館', desc: '六本木ヒルズ森タワー 52F\n全程室内 · 东京夜景展望台\n¥2,000/人（含展望台）', map: 'Mori+Art+Museum+Roppongi' },
+        { time: '10:30-13:00', title: '🏢 上午 Option B: 水族馆 マクセルアクアパーク品川', desc: '酒店步行 10 分钟\n全程室内 · 海豚表演\n¥2,500/人', map: 'Maxell+Aqua+Park+Shinagawa' },
+        { time: '13:00-14:00', title: '🍜 午餐', desc: '所在商场餐厅\n或回新高轮酒店餐厅' },
+        { time: '15:00-19:00', title: '🛍 下午 DiverCity 台场', desc: '全程室内商场 · 避雨\nゆりかもめ 台场駅直达\nDiverCity 2F 有豪华母婴室', map: 'DiverCity+Tokyo+Plaza' },
+        { time: '19:30', title: '🍽 晚餐', desc: 'DiverCity 商场内 or 回酒店' }
+      ],
+      feeding: [
+        { time: '8:00', place: '新高轮房间内' },
+        { time: '11:00', place: '森美術館 / 水族馆 母婴室' },
+        { time: '14:00', place: 'DiverCity 2F 母婴室（4间个室+热水+微波炉）' },
+        { time: '17:00', place: 'DiverCity 2F 母婴室' },
+        { time: '20:00', place: '回酒店房间' }
+      ],
+      warning: '原计划新宿御苑+台场，大暴雨改全室内方案。如天气实际比预报好再灵活调整。'
+    },
+    {
+      n: 6, date: '2026-04-25', dow: '周六', title: '🌸 粉蝶花',
+      theme: '全程最期待的日子',
+      weather: { ecmwf: '雨 22% / 6.8mm', tenki: '曇のち晴 40%', temp: '6-16°C 海边风', mixed: true },
+      hotel: { name: '新高轮格兰王子 (续)', phone: '03-3447-1111' },
+      items: [
+        { time: '07:45-08:30', title: '🍳 早餐自理', desc: '前一晚买好便利店早餐房间吃最稳\n新高轮不含早餐' },
+        { time: '08:30', title: '品川站 买铁路便当', desc: 'Ekipara / 駅弁屋祭 / 上车吃\n换好尿布' },
+        { time: '09:15', title: '🚂 特急ひたち 55 号', desc: '品川→勝田\n6号車 3A+3B\n10:53 到勝田\n予約 E17127', pill: 'ok', pillText: 'IC 卡 tap' },
+        { time: '10:53-11:15', title: '勝田站→海浜公園', desc: '海浜公園西口线巴士 15 分钟 ¥400/人' },
+        { time: '11:15-16:00', title: '🌸 常陆海浜公園 粉蝶花', desc: '海浜公園西口门票 ¥450/人\n粉蝶花见晴之丘 · 蓝色花海\n⚠ 海边风大 · 宝宝 4 层保暖\n\n拍照最佳时间 14:00-16:00 (tenki 说后半段晴)\n\n母婴室: プレジャーガーデン 赤ちゃんルーム\n(2 间 · 4 台尿布台 · 空调)\n西口母婴室有热水器', map: 'Hitachi+Seaside+Park' },
+        { time: '16:00-16:15', title: '🚌 回勝田站', desc: '海浜公園西口→勝田站巴士' },
+        { time: '16:21', title: '🚂 ひたち 20 号', desc: '勝田→品川\n4号車 17A+17B\n17:54 到品川\n予約 E79989', pill: 'ok', pillText: 'IC 卡 tap' },
+        { time: '18:00-20:00', title: '🍽 晚餐（品川附近）', desc: '回酒店或品川站商场\n看宝宝状态' }
+      ],
+      feeding: [
+        { time: '8:00', place: '新高轮房间内' },
+        { time: '10:15', place: '⭐ 特急ひたち车上多目的室（09:15 品川发→10:53 到勝田 · 车上 90 分钟 · 找列车员说 "Jyunyu" 开锁）' },
+        { time: '13:30', place: '⭐ プレジャーガーデン 赤ちゃんルーム (2 间+4 台尿布台+空调)' },
+        { time: '15:30', place: '西口母婴室 (有热水器)' },
+        { time: '17:00', place: 'ひたち车上多目的室' }
+      ]
+    },
+    {
+      n: 7, date: '2026-04-26', dow: '周日', title: '回深圳',
+      theme: '平安到家',
+      weather: { ecmwf: '阴 8% / 0mm', tenki: '晴 10% (12-23°C)', temp: '9-22°C' },
+      items: [
+        { time: '07:00', title: '☕ 早餐自理', desc: '前一晚买便利店房间吃' },
+        { time: '08:00', title: '退房 新高轮', desc: '11:00 前' },
+        { time: '08:30', title: '打车/步行 品川站', desc: '高轮口步行 10 分钟 / 700m\n带宝宝+行李建议打车' },
+        { time: '09:00', title: '京急线 品川→羽田 T3', desc: '约 13 分钟' },
+        { time: '09:30-10:30', title: '羽田 T3 值机 + 过关', desc: '退税（如有购物）\n哺乳室：出发层 3F「K」前付近 或 出国后3处' },
+        { time: '11:10', title: '✈️ 起飞', desc: 'HND→SZX' }
+      ],
+      feeding: [
+        { time: '7:00', place: '新高轮房间内' },
+        { time: '10:00', place: '羽田 T3 哺乳室 (出发层 3F「K」前付近)' }
+      ]
+    }
+  ],
+
+  tickets: [
+    { id: 'E00960', train: 'Fuji-Excursion 93', date: '04/21', dow: '周二', from: 'SHINJUKU', fromTime: '11:34', to: 'KAWAGUCHIKO', toTime: '13:31', car: '1', seat: '16C+16D', price: '¥3,240', status: 'active' },
+    { id: 'E55904', train: 'Fuji-Excursion 94', date: '04/23', dow: '周四', from: 'KAWAGUCHIKO', fromTime: '15:39', to: 'SHINJUKU', toTime: '17:45', car: '1', seat: '16A+16B', price: '¥3,240', status: 'active' },
+    { id: 'E16143', train: 'Tokiwa 55 🚨', date: '04/24', dow: '周五', from: 'SHINAGAWA', fromTime: '09:15', to: 'KATSUTA', toTime: '10:53', car: '6', seat: '3A+3B', price: '¥3,160', status: 'cancel' },
+    { id: 'E49558', train: 'Hitachi 20 🚨', date: '04/24', dow: '周五', from: 'KATSUTA', fromTime: '16:21', to: 'SHINAGAWA', toTime: '17:52', car: '4', seat: '17A+17B', price: '¥3,160', status: 'cancel' },
+    { id: 'E17127', train: 'Tokiwa 55', date: '04/25', dow: '周六', from: 'SHINAGAWA', fromTime: '09:15', to: 'KATSUTA', toTime: '10:53', car: '6', seat: '3A+3B', price: '¥3,160', status: 'active' },
+    { id: 'E79989', train: 'Hitachi 20', date: '04/25', dow: '周六', from: 'KATSUTA', fromTime: '16:21', to: 'SHINAGAWA', toTime: '17:54', car: '4', seat: '17A+17B', price: '¥3,160', status: 'active' }
+  ],
+
+  hotels: [
+    { night: '4/20', name: 'Villa Fontaine Grand Haneda T3', zip: '144-0041', addr: '東京都大田区羽田空港2-7-1', phone: '03-6302-0508', room: 'Universal Twin 29㎡ 禁煙', price: '821.54 CNY + ¥2,500 升级', note: 'T3 直连', checkIn: '15:00 后', checkOut: '11:00 前', map: 'Villa+Fontaine+Grand+Haneda' },
+    { night: '4/21', name: '若草之宿 丸栄', zip: '401-0304', addr: '山梨県南都留郡富士河口湖町小立498', phone: '+81-555-72-1371', room: '河口湖侧和室 10 榻榻米 16.2㎡', price: '2,757 CNY (含 2 怀石晚+2 早)', note: '免费接驳车·到河口湖站打电话', checkIn: '15:00-17:00', checkOut: '次日 8:30-11:00', map: 'Wakakusa+no+Yado+Maruei' },
+    { night: '4/22', name: 'Haostay Kawaguchiko', zip: '', addr: '山梨県南都留郡富士河口湖町 大石地区', phone: '+81-555-28-4377', room: '山景房（含早餐）', price: '944 CNY', note: '红线巴士「大木」站 下车 400m · 客服 9:00-21:00', checkIn: '15:00-21:00', checkOut: '10:00 前', map: 'Haostay+Kawaguchiko' },
+    { night: '4/23-25', name: '新高轮格兰王子', zip: '108-8612', addr: '東京都港区高輪3-13-1', phone: '03-3447-1111', room: '4/23-24 高级自然双床 / 4/25 高级现代双床 禁煙', price: '2,187 + 1,413 CNY', note: '品川站高轮口步行 10 分钟 / 700m', checkIn: '15:00 后', checkOut: '11:00 前', map: 'Grand+Prince+Hotel+Shin+Takanawa' }
+  ],
+
+  weather: [
+    { d: '4/20', trip: '抵羽田', loc: '东京', ecmwf: '阴 0%/0mm', tenki: '晴時々曇 20%', temp: '13-22.5°C' },
+    { d: '4/21', trip: '去河口湖', loc: '河口湖', ecmwf: '毛雨 49%/2mm', tenki: '曇のち晴 40%', temp: '8-20°C' },
+    { d: '4/22', trip: '芝樱祭', loc: '本栖湖', ecmwf: '阴 3%/0mm', tenki: '晴のち曇 30%', temp: '4-18°C ⚠' },
+    { d: '4/23', trip: '大石→东京', loc: '河口湖', ecmwf: '雨 92%/7.9mm 🚨', tenki: '曇のち雨 70%', temp: '10-18°C', highlight: true },
+    { d: '4/24', trip: '东京休整', loc: '东京', ecmwf: '大雨 87%/26.4mm 🚨', tenki: '雨時々曇 90%', temp: '10-17°C', highlight: true },
+    { d: '4/25', trip: '粉蝶花 ✅', loc: '海浜公園', ecmwf: '雨 22%/6.8mm', tenki: '曇のち晴 40%', temp: '6-16°C', highlight: true },
+    { d: '4/26', trip: '回羽田', loc: '东京', ecmwf: '阴 8%/0mm', tenki: '晴 10%', temp: '9-22°C' }
+  ],
+
+  packing: [
+    { cat: '🪪 证件钱款（随身）', items: ['护照 × 3', '机票行程单', '酒店预订单 × 5', 'Eki-Net 予約号清单', '日元 5-8 万円', '信用卡 × 2', '中国身份证', '宝宝出生证复印件', '旅游保险单', 'Visit Japan Web QR'] },
+    { cat: '🍼 宝宝专属', items: ['纸尿裤 60 片', '湿巾 5 包', '拉拉裤 5 片', '一次性尿布垫 10 片', '吐奶巾 × 6', '口水巾 × 6', '哺乳巾 × 2', '防溢乳垫', '婴儿指甲钳', '牙胶 × 2', '安抚奶嘴 × 2 ⭐', '静音玩具 × 3'] },
+    { cat: '👕 大人衣物', items: ['薄羽绒 × 2 ⭐', '薄外套 × 2', '长袖打底 × 6', '长裤 × 4', '短袖 × 4', '薄围巾 × 2', '内衣裤 × 8', '袜子 × 10', '运动鞋 × 2', '墨镜 × 2'] },
+    { cat: '👶 宝宝衣物', items: ['连体衣 × 7', '厚保暖连体衣 × 2 ⭐', '抓绒外套 × 1', '保暖帽 × 1 ⭐ 本栖湖', '遮阳帽 × 1', '袜子 × 5', '连体睡衣 × 2', '轻薄盖毯 × 1', '加厚毛毯 × 1 ⭐ 本栖湖', '防踢被 × 1', '软底鞋 × 1'] },
+    { cat: '📱 电子通讯', items: ['手机 × 2', '充电线 × 3', 'PD 充电头 × 2', '充电宝 ≤100Wh', '日本流量卡 × 2', '耳机 × 2', '相机 (可选)', 'Google Maps 离线地图'] },
+    { cat: '💊 大人药', items: ['感冒药 (泰诺)', '退烧药 (布洛芬)', '胃肠药 (蒙脱石散)', '过敏药', '晕车药', '创可贴', '电子体温计'] },
+    { cat: '💊 宝宝药 ⚠必备', items: ['布洛芬/对乙酰氨基酚滴剂', '生理盐水滴鼻液 + 吸鼻器', '益生菌', '口服补液盐', '退热贴', '宝宝驱蚊液', '炉甘石洗剂', '健康本复印件'] },
+    { cat: '🚃 出行装备', items: ['折叠伞 × 2 ⭐', '婴儿车 × 1', '婴儿车雨罩', 'S 钩 × 2', '腰凳/前抱带', '24 吋行李箱', '20 吋行李箱', '折叠购物袋 × 2', '密封袋 × 10', '小保温壶 × 1'] },
+    { cat: '⭐ 出发前 24h 待办', items: ['退 4/24 常陆号票 🚨', '4/19 最后查天气', '确认国际漫游', '日本流量卡到手', '下载 Google Maps 离线', 'Eki-Net APP 登录 + 截图 6 张票', 'Visit Japan Web 提交', '给若草发消息告知 4/21 13:31 到站 14:00 接站', '行李清单打钩 + 称重'] }
+  ],
+
+  maps: [
+    { cat: '🏨 酒店', items: [
+      { name: 'Villa Fontaine Grand Haneda T3', q: 'Villa+Fontaine+Grand+Haneda' },
+      { name: '若草之宿 丸栄', q: 'Wakakusa+no+Yado+Maruei' },
+      { name: 'Haostay 河口湖', q: 'Haostay+Kawaguchiko' },
+      { name: '新高轮格兰王子', q: 'Grand+Prince+Hotel+Shin+Takanawa' }
+    ]},
+    { cat: '🌸 景点', items: [
+      { name: '富士芝桜まつり 会场', q: 'Fuji+Shibazakura+Festival' },
+      { name: '常陸海浜公園 粉蝶花', q: 'Hitachi+Seaside+Park' },
+      { name: '大石公园 (已跳过)', q: 'Oishi+Park+Kawaguchiko' },
+      { name: '八木崎公園', q: 'Yagisaki+Park+Kawaguchiko' },
+      { name: '六本木ヒルズ 森美術館', q: 'Mori+Art+Museum+Roppongi' },
+      { name: 'DiverCity 台场', q: 'DiverCity+Tokyo+Plaza' },
+      { name: 'マクセルアクアパーク品川', q: 'Maxell+Aqua+Park+Shinagawa' }
+    ]},
+    { cat: '🍜 餐厅', items: [
+      { name: 'ほうとう不動 河口湖駅前店', q: 'Hoto+Fudo+Kawaguchiko+Station' },
+      { name: '甲州屋 koushuya', q: 'Koushuya+Kawaguchiko' },
+      { name: 'Tonkatsu haostay', q: 'Tonkatsu+Haostay' },
+      { name: 'KANADE 和食', q: 'Kanade+Kawaguchiko' },
+      { name: 'くら寿司 品川', q: 'Kurasushi+Shinagawa' }
+    ]}
+  ]
+};
+
+// ============ RENDER FUNCTIONS ============
+
+function switchPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(n => {
+    n.classList.toggle('active', n.dataset.page === pageId);
+  });
+  if (['home','day','tickets','hotels','more'].indexOf(pageId) === -1) {
+    document.querySelectorAll('.nav-btn').forEach(n => {
+      n.classList.toggle('active', n.dataset.page === 'more');
+    });
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderPredeparture() {
+  const items = [
+    { k: 'todo-cancel', label: '🚨 Eki-Net 退 4/24 票（E16143 + E49558）', urgent: true },
+    { k: 'todo-icoca', label: '✅ ICOCA × 2 已绑定 Eki-Net', done: true },
+    { k: 'todo-wifi', label: '日本流量卡 ×2 到手' },
+    { k: 'todo-roam', label: '国际漫游开通确认' },
+    { k: 'todo-gmaps', label: 'Google Maps 离线地图（东京+山梨+茨城）' },
+    { k: 'todo-vjw', label: 'Visit Japan Web 入境登记（邮编 1440041）' },
+    { k: 'todo-screenshot', label: 'Eki-Net 6 张票截图存相册' },
+    { k: 'todo-wakakusa', label: '给若草发消息告知 4/21 13:31 到站 · 14:00 接站' },
+    { k: 'todo-packlist', label: '行李清单打钩 + 行李箱称重' }
+  ];
+  const html = `<div class="card">${
+    items.map(it => {
+      const checked = it.done || localStorage.getItem(it.k) === '1';
+      return `<label class="check-item ${checked ? 'done' : ''}">
+        <input type="checkbox" ${checked ? 'checked' : ''} ${it.done ? 'disabled' : ''} onchange="toggleTodo('${it.k}', this)">
+        <span class="check-label" style="${it.urgent ? 'color:#b91c1c; font-weight:600' : ''}">${it.label}</span>
+      </label>`;
+    }).join('')
+  }</div>`;
+  document.getElementById('predeparture-card').innerHTML = html;
+}
+
+function toggleTodo(key, el) {
+  localStorage.setItem(key, el.checked ? '1' : '0');
+  el.parentElement.classList.toggle('done', el.checked);
+}
+
+function renderHomeDays() {
+  const container = document.getElementById('days-overview');
+  container.innerHTML = TRIP.days.map(d => {
+    const isToday = isDayToday(d.date);
+    const warnClass = d.n === 4 || d.n === 5 ? 'warn' : (d.n === 6 ? 'ok' : '');
+    return `
+      <div class="card" onclick="openDay(${d.n})" style="display:flex;align-items:center;gap:12px; ${isToday ? 'border: 2px solid #e8796a;' : ''}">
+        <div style="flex-shrink:0; width:44px; height:44px; border-radius:10px; background:#fff1ee; color:#d65a47; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:700;">
+          <div style="font-size:9px; opacity:.8">DAY</div>
+          <div style="font-size:16px; line-height:1">${d.n}</div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:13px; font-weight:600">${d.date.slice(5)} ${d.dow} · ${d.title} ${isToday ? '<span class="pill ok" style="margin-left:6px">今天</span>' : ''}</div>
+          <div style="font-size:12px; color:#6b7280; margin-top:2px">${d.theme}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openDay(n) {
+  switchPage('day');
+  renderDay(n);
+}
+
+function renderDayTabs(activeN) {
+  const tabs = document.getElementById('day-tabs');
+  tabs.innerHTML = TRIP.days.map(d =>
+    `<div class="day-tab ${d.n === activeN ? 'active' : ''}" onclick="renderDay(${d.n})">D${d.n} ${d.date.slice(5)}</div>`
+  ).join('');
+}
+
+function renderDay(n) {
+  renderDayTabs(n);
+  const d = TRIP.days[n - 1];
+  const container = document.getElementById('day-content');
+  const w = d.weather;
+  const weatherIcon = w.rain ? '🌧' : (w.cold ? '❄️' : (w.mixed ? '⛅' : '🌤'));
+
+  let html = `
+    <div class="day-hero">
+      <div class="day-num">DAY ${d.n} · ${d.date} ${d.dow}</div>
+      <div class="day-date">${d.title}</div>
+      <div class="day-theme">${d.theme}</div>
+      <div class="weather-chip">${weatherIcon} ${w.temp} · ECMWF ${w.ecmwf} · tenki ${w.tenki}</div>
+    </div>
+  `;
+
+  if (d.warning) {
+    html += `<div class="callout alert">🚨 ${d.warning}</div>`;
+  }
+
+  html += `<div class="section-label">🗓 行程</div>`;
+  html += `<div class="card"><div class="timeline">`;
+  d.items.forEach(it => {
+    const tMatch = it.time.match(/^(\d{1,2}):(\d{2})/);
+    const tShort = tMatch ? `${tMatch[1]}:${tMatch[2]}` : it.time;
+    const tFullNote = (it.time !== tShort) ? ` <span class="small-muted" style="font-weight:400">(${it.time})</span>` : '';
+    html += `<div class="tl-item">
+      <div class="tl-time">${tShort}</div>
+      <div class="tl-title">${it.title}${tFullNote} ${it.pill ? `<span class="pill ${it.pill}">${it.pillText}</span>` : ''}</div>
+      <div class="tl-desc">${it.desc}</div>`;
+    if (it.map || it.phone) {
+      html += `<div class="action-row">`;
+      if (it.map) html += `<a class="action-btn map" href="https://www.google.com/maps/search/?api=1&query=${it.map}" target="_blank">🗺 地图</a>`;
+      if (it.phone) html += `<a class="action-btn phone" href="tel:${it.phone}">📞 ${it.phone}</a>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+  });
+  html += `</div></div>`;
+
+  if (d.hotel) {
+    html += `<div class="section-label">🏨 住宿</div>
+      <div class="card">
+        <div class="card-title">${d.hotel.name}</div>
+        ${d.hotel.checkIn ? `<div class="kv"><span class="k">Check-in</span><span class="v">${d.hotel.checkIn}</span></div>` : ''}
+        ${d.hotel.phone ? `<div class="kv"><span class="k">电话</span><a class="v" href="tel:${d.hotel.phone}" style="color:#047857">${d.hotel.phone}</a></div>` : ''}
+        ${d.hotel.note ? `<div class="small-muted" style="margin-top:6px">${d.hotel.note}</div>` : ''}
+      </div>`;
+  }
+
+  if (d.feeding) {
+    html += `<div class="section-label">🍼 喂奶时间地点</div>
+      <div class="card">`;
+    d.feeding.forEach(f => {
+      html += `<div class="kv"><span class="k">${f.time}</span><span class="v" style="max-width:70%; font-size:12px; text-align:right">${f.place}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  container.innerHTML = html;
+  window.scrollTo({ top: 0 });
+}
+
+function renderTickets() {
+  const container = document.getElementById('tickets-list');
+  container.innerHTML = TRIP.tickets.map(t => `
+    <div class="qr-card" style="${t.status === 'cancel' ? 'opacity:.55; background:#fef2f2' : ''}">
+      <div class="ticket-header">
+        <div>
+          <div style="font-weight:600; font-size:14px">${t.train}</div>
+          <div class="small-muted">${t.date} ${t.dow} · ${t.id}</div>
+        </div>
+        <span class="pill ${t.status === 'cancel' ? 'alert' : 'ok'}">${t.status === 'cancel' ? '🚨 待退' : 'IC 卡 tap'}</span>
+      </div>
+      <div class="ticket-route">
+        <div class="ticket-city"><div class="city">${t.from}</div><div class="time">${t.fromTime}</div></div>
+        <div class="ticket-arrow">→</div>
+        <div class="ticket-city" style="text-align:right"><div class="city">${t.to}</div><div class="time">${t.toTime}</div></div>
+      </div>
+      <div class="kv"><span class="k">车厢 座位</span><span class="v">${t.car}号車 ${t.seat}</span></div>
+      <div class="kv"><span class="k">金额</span><span class="v">${t.price}</span></div>
+    </div>
+  `).join('');
+}
+
+function renderHotels() {
+  const container = document.getElementById('hotels-list');
+  container.innerHTML = TRIP.hotels.map(h => `
+    <div class="card">
+      <div class="card-title">${h.name}</div>
+      <div class="small-muted" style="margin-bottom:8px">住宿日期: ${h.night}</div>
+      <div class="kv"><span class="k">房型</span><span class="v" style="font-size:12px">${h.room}</span></div>
+      ${h.zip ? `<div class="kv"><span class="k">邮编</span><span class="v">〒${h.zip}</span></div>` : ''}
+      <div class="kv"><span class="k">地址</span><span class="v" style="font-size:12px">${h.addr}</span></div>
+      ${h.phone ? `<div class="kv"><span class="k">电话</span><a class="v" href="tel:${h.phone}" style="color:#047857">${h.phone}</a></div>` : ''}
+      <div class="kv"><span class="k">Check-in</span><span class="v">${h.checkIn}</span></div>
+      ${h.checkOut ? `<div class="kv"><span class="k">Check-out</span><span class="v">${h.checkOut}</span></div>` : ''}
+      ${h.note ? `<div class="small-muted" style="margin-top:8px">💡 ${h.note}</div>` : ''}
+      <div class="action-row">
+        <a class="action-btn map" href="https://www.google.com/maps/search/?api=1&query=${h.map}" target="_blank">🗺 Google Maps</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderWeather() {
+  const tbody = document.getElementById('weather-tbody');
+  tbody.innerHTML = TRIP.weather.map(w => `
+    <tr class="${w.highlight ? 'highlight' : ''}">
+      <td><strong>${w.d}</strong><br><span class="small-muted">${w.trip}</span></td>
+      <td>${w.ecmwf}</td>
+      <td>${w.tenki}</td>
+      <td>${w.temp}</td>
+    </tr>
+  `).join('');
+}
+
+function renderPacking() {
+  const container = document.getElementById('packing-list');
+  container.innerHTML = TRIP.packing.map((sec, i) => `
+    <div class="card">
+      <div class="card-title">${sec.cat}</div>
+      ${sec.items.map((it, j) => {
+        const key = `pack-${i}-${j}`;
+        const checked = localStorage.getItem(key) === '1';
+        return `
+          <label class="check-item ${checked ? 'done' : ''}" data-key="${key}">
+            <input type="checkbox" ${checked ? 'checked' : ''} onchange="togglePack('${key}', this)">
+            <span class="check-label">${it}</span>
+          </label>
+        `;
+      }).join('')}
+    </div>
+  `).join('');
+}
+
+function togglePack(key, el) {
+  localStorage.setItem(key, el.checked ? '1' : '0');
+  el.parentElement.classList.toggle('done', el.checked);
+}
+
+function renderFeeding() {
+  const container = document.getElementById('feeding-content');
+  let html = '';
+  TRIP.days.forEach(d => {
+    if (!d.feeding || !d.feeding.length) return;
+    html += `<div class="card">
+      <div class="card-title">Day ${d.n} · ${d.date.slice(5)} ${d.title}</div>`;
+    d.feeding.forEach(f => {
+      html += `<div class="kv"><span class="k">${f.time}</span><span class="v" style="font-size:12px; max-width:70%; text-align:right">${f.place}</span></div>`;
+    });
+    html += `</div>`;
+  });
+  container.innerHTML = html;
+}
+
+function renderMaps() {
+  const container = document.getElementById('maps-list');
+  container.innerHTML = TRIP.maps.map(cat => `
+    <div class="card">
+      <div class="card-title">${cat.cat}</div>
+      ${cat.items.map(it => `
+        <a href="https://www.google.com/maps/search/?api=1&query=${it.q}" target="_blank"
+           style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f3f4f6; color:#1a1a2e; text-decoration:none">
+          <span style="font-size:13.5px">${it.name}</span>
+          <span style="color:#e8796a; font-size:12px">🗺 打开</span>
+        </a>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function isDayToday(dateStr) {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = String(today.getDate()).padStart(2, '0');
+  return dateStr === `${y}-${m}-${d}`;
+}
+
+function updateCountdown() {
+  const today = new Date();
+  const dep = new Date('2026-04-20T00:00:00');
+  const diff = Math.ceil((dep - today) / (1000 * 60 * 60 * 24));
+  const cd = document.getElementById('countdown');
+  const hd = document.getElementById('home-day');
+  const hl = document.getElementById('home-label');
+  if (diff > 0) {
+    cd.textContent = `D-${diff}`;
+    hd.textContent = `D-${diff}`;
+    hl.textContent = `还有 ${diff} 天出发`;
+  } else if (diff === 0) {
+    cd.textContent = 'DAY 1';
+    hd.textContent = 'D1';
+    hl.textContent = '今天出发';
+  } else if (diff >= -6) {
+    cd.textContent = `DAY ${1 - diff}`;
+    hd.textContent = `D${1 - diff}`;
+    hl.textContent = `旅程第 ${1 - diff} 天`;
+  } else {
+    cd.textContent = '已回程';
+    hd.textContent = '✓';
+    hl.textContent = '旅程已结束';
+  }
+}
+
+// ============ INIT ============
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchPage(btn.dataset.page));
+});
+
+renderPredeparture();
+renderHomeDays();
+renderTickets();
+renderHotels();
+renderWeather();
+renderPacking();
+renderFeeding();
+renderMaps();
+
+// If it's a trip day, default to today's day view
+const today = new Date();
+const depDate = new Date('2026-04-20');
+const diff = Math.floor((today - depDate) / (1000 * 60 * 60 * 24)) + 1;
+if (diff >= 1 && diff <= 7) {
+  renderDay(diff);
+} else {
+  renderDay(1);
+}
+
+updateCountdown();
+
+// Service Worker for offline
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+
+</body>
+</html>
