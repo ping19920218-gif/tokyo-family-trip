@@ -388,6 +388,16 @@ a { color: inherit; }
 <section class="page" id="page-more">
   <div class="section-label">📋 更多</div>
 
+  <div class="card" onclick="switchPage('fallbacks')" style="border-left:3px solid #dc2626">
+    <div class="card-title">🔄 备选方案（if/then）</div>
+    <div class="card-sub">8 种突发情况 · 当场查可执行替代</div>
+  </div>
+
+  <div class="card" onclick="switchPage('restaurants')">
+    <div class="card-title">🍽 餐厅汇总</div>
+    <div class="card-sub">13 家按天+地点分类 · 含评分/距离</div>
+  </div>
+
   <div class="card" onclick="switchPage('weather')">
     <div class="card-title">🌤 完整天气表</div>
     <div class="card-sub">ECMWF + tenki.jp 双源 · 4/19 update</div>
@@ -395,7 +405,7 @@ a { color: inherit; }
 
   <div class="card" onclick="switchPage('packing')">
     <div class="card-title">🧳 行李清单（打钩版）</div>
-    <div class="card-sub">7 大类 · 出发前对照打钩</div>
+    <div class="card-sub">9 大类 · 出发前对照打钩</div>
   </div>
 
   <div class="card" onclick="switchPage('feeding')">
@@ -410,13 +420,28 @@ a { color: inherit; }
 
   <div class="card" onclick="switchPage('maps')">
     <div class="card-title">🗺 Google Maps 标星点</div>
-    <div class="card-sub">4 酒店 + 6 景点 + 5 餐厅</div>
+    <div class="card-sub">4 酒店 + 7 景点 + 5 餐厅</div>
   </div>
 
   <div class="card" onclick="switchPage('ekinet')">
     <div class="card-title">🎫 Eki-Net 使用说明</div>
     <div class="card-sub">IC 卡 tap 流程 + backup 方案</div>
   </div>
+</section>
+
+<!-- PAGE: Fallbacks -->
+<section class="page" id="page-fallbacks">
+  <div class="section-label">🔄 备选方案 · if 发生 X 怎么办</div>
+  <div class="callout warn">
+    现场觉得不对劲 → 翻这一页。按 trigger 找替代方案。
+  </div>
+  <div id="fallbacks-list"></div>
+</section>
+
+<!-- PAGE: Restaurants -->
+<section class="page" id="page-restaurants">
+  <div class="section-label">🍽 餐厅汇总（按天+地点）</div>
+  <div id="restaurants-list"></div>
 </section>
 
 <!-- PAGE: Weather -->
@@ -706,6 +731,41 @@ const TRIP = {
     { cat: '⭐ 出发前 24h 待办', items: ['退 4/24 常陆号票 🚨', '4/19 最后查天气', '确认国际漫游', '日本流量卡到手', '下载 Google Maps 离线', 'Eki-Net APP 登录 + 截图 6 张票', 'Visit Japan Web 提交', '给若草发消息告知 4/21 13:31 到站 14:00 接站', '行李清单打钩 + 称重'] }
   ],
 
+  fallbacks: [
+    { trigger: '🌧 4/22 芝樱祭下大雨', badge: 'alert', action: '取消芝樱，改室内',
+      detail: '河口湖站附近室内：Kipokipo 室内乐园（¥700 · 只收现金 · 适合婴儿爬）\n或早点 check-in Haostay 房间休息' },
+    { trigger: '☁️ 4/22 阴天不下雨（看不到富士山）', badge: 'info', action: '芝樱照常去',
+      detail: '地面花不需要蓝天，阴天拍照还更均匀\n富士山缆车这天不去（没意义）' },
+    { trigger: '☀️ 4/23 意外放晴（ECMWF 预报 92% 雨 但真没下）', badge: 'ok', action: '恢复原计划去大石公园',
+      detail: '回到 v33 方案：Haostay → 大石公园 → 河口湖站 → 15:39 富士回游\n⚠ 必须在 Haostay 退房前看雨况决定' },
+    { trigger: '⛈ 4/24 东京暴雨·商场也懒得去', badge: 'warn', action: '酒店躺平日',
+      detail: '新高轮内部：王子Pavilion 下午茶（¥3,500 左右）\n或品川王子水族館（酒店步行 10 分钟 · 室内）\n宝宝多睡觉也是赚' },
+    { trigger: '🌧 4/25 粉蝶花日下雨超预期（tenki 也转雨）', badge: 'alert', action: '缩短或放弃',
+      detail: 'Plan A：午前拍完核心花海，14:00 撤回胜田站\nPlan B：彻底放弃粉蝶花，改六本木ヒルズ 52F 森美術館室内\n常陆号票 4/25 的钱不要纠结，安全第一' },
+    { trigger: '😭 宝宝某天崩溃（发烧/哭闹不止/严重腹泻）', badge: 'alert', action: '当天行程全砍',
+      detail: '回酒店/旅馆躺着\n需要就医：\n· 小児科：Google Maps 搜 "pediatric clinic" 附近\n· 紧急：119 救护车\n· 驻日大使馆 +81-3-3403-3388' },
+    { trigger: '🏃 4/26 退税排队太久赶不上飞机', badge: 'warn', action: '放弃退税直接安检',
+      detail: '品川→羽田 T3 京急只要 13-15 分钟\n登机口值机截止前 45 分钟\n退税金额通常 <¥5,000，不值得错过航班\n下次来日本再退' },
+    { trigger: '🚂 4/21 错过 11:34 富士回游 93 号', badge: 'warn', action: '改高速巴士',
+      detail: '新宿 Busta（南口旁边）现场买票\n→ 河口湖 约 2 小时\n班次每 30-60 分钟一班\n约 ¥2,000/人' }
+  ],
+
+  restaurants: [
+    { day: 'Day 2 4/21', name: 'ほうとう不動 河口湖駅前店', type: '🍜 郷土料理', price: '¥1,320/人', rating: '', dist: '河口湖站出口右转 1 分钟', note: '铁锅味噌煮面 · 110 席 · 榻榻米座 · 全面禁烟\n⚠ 现点现煮 20 分钟 · 铁锅滚烫远离宝宝', map: 'Hoto+Fudo+Kawaguchiko+Station' },
+    { day: 'Day 2 4/21 晚', name: '若草之宿 丸栄 怀石料理', type: '🍱 怀石', price: '含房费', rating: '', dist: '旅馆内', note: '四季和会席 · 海鲜+山里食材\n17:30-19:00 开始 · 房间内 or 个室\n⚠ 食物过敏无法对应' },
+    { day: 'Day 3 4/22 晚', name: 'Tonkatsu haostay', type: '🍖 炸猪排', price: '~¥2,000', rating: '4.9★ (428 评)', dist: 'Haostay 隔壁 1-2 分钟', note: '至 21:00 · 不用预约', map: 'Tonkatsu+Haostay+Kawaguchiko' },
+    { day: 'Day 3 4/22 晚', name: '甲州屋 koushuya', type: '🍖 炸牛排', price: '~¥3,500', rating: '4.9★ (5297 评)', dist: '步行 8 分钟', note: '⭐ 可预约 · 本地招牌店', map: 'Koushuya+Kawaguchiko' },
+    { day: 'Day 3 4/22 晚', name: 'KANADE 和食', type: '🍱 和食', price: '~¥3,000', rating: '4.7★ (370 评)', dist: '步行 10 分钟', note: '⚠ 周三可能休 — Day 3 正好是周三，出发前电话确认', map: 'Kanade+Kawaguchiko' },
+    { day: 'Day 4 4/23 午', name: 'ほうとう不動 河口湖駅前店', type: '🍜 郷土料理', price: '¥1,320/人', rating: '', dist: '河口湖站前 1 分钟', note: '已吃过也可再吃 · 室内避雨', map: 'Hoto+Fudo+Kawaguchiko+Station' },
+    { day: 'Day 4 4/23 午 备选', name: 'ほうとう小作 河口湖店', type: '🍜 郷土料理', price: '¥1,200-1,800', rating: '', dist: '站步行 5 分钟', note: '南瓜ほうとう招牌', map: 'Hoto+Kosaku+Kawaguchiko' },
+    { day: 'Day 4 4/23 晚 新高轮附近', name: '品川站 Ekipara / 駅弁屋祭', type: '🍱 铁路便当', price: '¥800-1,500', rating: '', dist: '品川站内', note: '酒店附近没特别店 · 买便当回房吃最轻松' },
+    { day: 'Day 5 4/24 东京室内', name: 'マクセルアクアパーク品川 内餐厅', type: '🍽 混合', price: '¥1,500-2,500', rating: '', dist: '酒店步行 10 分钟', note: '水族馆内避雨', map: 'Maxell+Aqua+Park+Shinagawa' },
+    { day: 'Day 5 4/24 东京室内', name: 'DiverCity Tokyo 美食街', type: '🍱 多家可选', price: '¥1,000-2,500', rating: '', dist: 'ゆりかもめ 台場駅', note: '商场内多家餐厅 · 避雨 + 有母婴室', map: 'DiverCity+Tokyo+Plaza+Restaurants' },
+    { day: 'Day 6 4/25 早+车上', name: '品川站 Ekipara / 駅弁屋祭', type: '🍱 铁路便当', price: '¥1,000-1,500', rating: '', dist: '品川站内', note: '上常陆 55 号前买 · 车上 90 分钟吃完', map: 'Ekipara+Shinagawa' },
+    { day: 'Day 6 4/25 午', name: '常陆海浜公園 西口食堂', type: '🍽 园内餐厅', price: '¥800-1,500', rating: '', dist: '海浜公園西口', note: '简餐 · 可带 bib 给宝宝', map: 'Hitachi+Seaside+Park+Restaurant' },
+    { day: 'Day 6 4/25 晚', name: '新高轮酒店餐厅 或品川', type: '🍽 随意', price: '按餐厅', rating: '', dist: '酒店内/品川', note: '宝宝累了优先回房点 room service' }
+  ],
+
   maps: [
     { cat: '🏨 酒店', items: [
       { name: 'Villa Fontaine Grand Haneda T3', q: 'Villa+Fontaine+Grand+Haneda' },
@@ -966,6 +1026,43 @@ function renderFeeding() {
   container.innerHTML = html;
 }
 
+function renderFallbacks() {
+  const container = document.getElementById('fallbacks-list');
+  const badgeClass = { alert: 'alert', warn: 'warn', ok: 'ok', info: 'info' };
+  container.innerHTML = TRIP.fallbacks.map(f => `
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; gap:10px; align-items:start; margin-bottom:6px">
+        <div style="font-weight:600; font-size:14px">${f.trigger}</div>
+        <span class="pill ${badgeClass[f.badge] || 'info'}" style="flex-shrink:0">${f.action}</span>
+      </div>
+      <div style="font-size:12.5px; color:#4b5563; line-height:1.65; white-space:pre-line; padding-top:4px; border-top:1px dashed #f3f4f6; margin-top:6px">${f.detail}</div>
+    </div>
+  `).join('');
+}
+
+function renderRestaurants() {
+  const container = document.getElementById('restaurants-list');
+  // Group by day
+  const byDay = {};
+  TRIP.restaurants.forEach(r => { (byDay[r.day] = byDay[r.day] || []).push(r); });
+  container.innerHTML = Object.keys(byDay).map(day => `
+    <div class="section-label" style="margin:18px 4px 6px">${day}</div>
+    ${byDay[day].map(r => `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:start; gap:8px">
+          <div style="flex:1">
+            <div style="font-weight:600; font-size:14px">${r.name}</div>
+            <div class="small-muted" style="margin-top:2px">${r.type} · ${r.price}${r.rating ? ' · ' + r.rating : ''}</div>
+          </div>
+        </div>
+        <div style="font-size:12px; color:#6b7280; margin-top:6px">📍 ${r.dist}</div>
+        ${r.note ? `<div style="font-size:12px; color:#4b5563; margin-top:4px; white-space:pre-line; line-height:1.55">${r.note}</div>` : ''}
+        ${r.map ? `<div class="action-row"><a class="action-btn map" href="https://www.google.com/maps/search/?api=1&query=${r.map}" target="_blank">🗺 地图</a></div>` : ''}
+      </div>
+    `).join('')}
+  `).join('');
+}
+
 function renderMaps() {
   const container = document.getElementById('maps-list');
   container.innerHTML = TRIP.maps.map(cat => `
@@ -1030,6 +1127,8 @@ renderWeather();
 renderPacking();
 renderFeeding();
 renderMaps();
+renderFallbacks();
+renderRestaurants();
 
 // If it's a trip day, default to today's day view
 const today = new Date();
