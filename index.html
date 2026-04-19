@@ -398,11 +398,6 @@ a { color: inherit; }
     <div class="card-sub">13 家按天+地点分类 · 含评分/距离</div>
   </div>
 
-  <div class="card" onclick="switchPage('weather')">
-    <div class="card-title">🌤 完整天气表</div>
-    <div class="card-sub">ECMWF + tenki.jp 双源 · 4/19 update</div>
-  </div>
-
   <div class="card" onclick="switchPage('packing')">
     <div class="card-title">🧳 行李清单（打钩版）</div>
     <div class="card-sub">9 大类 · 出发前对照打钩</div>
@@ -446,7 +441,20 @@ a { color: inherit; }
 
 <!-- PAGE: Weather -->
 <section class="page" id="page-weather">
-  <div class="section-label">🌤 完整天气 (4/19 update)</div>
+  <div id="weather-today-card"></div>
+
+  <div class="section-label">⚠ 天气关键提示</div>
+  <div class="callout alert" style="margin-bottom:10px">
+    🌡 <strong>4/22 芝樱祭 本栖湖</strong>早晨 4°C 最冷 · 宝宝必备 4 层保暖（厚连体衣+抓绒+保暖帽+毛毯）
+  </div>
+  <div class="callout alert" style="margin-bottom:10px">
+    🌧 <strong>4/23 河口湖</strong>雨 90%/8mm · <strong>4/24 东京</strong>暴雨 93%/26mm · 带冲锋衣+大伞，4/23 跳过大石公园
+  </div>
+  <div class="callout ok" style="margin-bottom:10px">
+    🌸 <strong>4/25 粉蝶花</strong>ECMWF 雨 22%/6.8mm + tenki 曇のち晴 40% · 比 4/24 显著好 · 4 层保暖（海边风）
+  </div>
+
+  <div class="section-label">🌤 完整 7 天表（4/19 update）</div>
   <div class="card">
     <table class="weather-table">
       <thead>
@@ -457,8 +465,19 @@ a { color: inherit; }
       <tbody id="weather-tbody"></tbody>
     </table>
   </div>
+
   <div class="callout info">
-    数据源：open-meteo ECMWF IFS025（精确坐标）+ tenki.jp 日本気象協会。每日坐标按实际所在地点查。
+    <strong>数据源</strong>：open-meteo ECMWF IFS025（精确坐标）+ tenki.jp 日本気象協会。<br>
+    <strong>坐标</strong>：东京 35.63N/139.73 · 河口湖 35.51/138.76 · 本栖湖 35.47/138.59 · 海浜公園 36.40/140.59<br>
+    <strong>更新</strong>：2026-04-19 最后一次双源交叉
+  </div>
+
+  <div class="section-label">📲 出发后自查渠道</div>
+  <div class="card">
+    <div class="kv"><span class="k">ECMWF 全球模型</span><a class="v" href="https://www.windy.com/?35.4704,138.5889,8" target="_blank" style="color:#1e40af">windy.com 🗺</a></div>
+    <div class="kv"><span class="k">日本本土 10 日予報</span><a class="v" href="https://tenki.jp/" target="_blank" style="color:#1e40af">tenki.jp</a></div>
+    <div class="kv"><span class="k">JMA 官方法定源</span><a class="v" href="https://www.jma.go.jp/bosai/forecast/" target="_blank" style="color:#1e40af">jma.go.jp</a></div>
+    <div class="kv"><span class="k">精确坐标 API</span><a class="v" href="https://open-meteo.com/" target="_blank" style="color:#1e40af">open-meteo.com</a></div>
   </div>
 </section>
 
@@ -535,6 +554,7 @@ a { color: inherit; }
 <nav id="bottom-nav">
   <div class="nav-btn active" data-page="home"><span class="icon">🏠</span><span>首页</span></div>
   <div class="nav-btn" data-page="day"><span class="icon">📅</span><span>行程</span></div>
+  <div class="nav-btn" data-page="weather"><span class="icon">🌤</span><span>天气</span></div>
   <div class="nav-btn" data-page="tickets"><span class="icon">🚂</span><span>车票</span></div>
   <div class="nav-btn" data-page="hotels"><span class="icon">🏨</span><span>酒店</span></div>
   <div class="nav-btn" data-page="more"><span class="icon">⋯</span><span>更多</span></div>
@@ -801,7 +821,8 @@ function switchPage(pageId) {
   document.querySelectorAll('.nav-btn').forEach(n => {
     n.classList.toggle('active', n.dataset.page === pageId);
   });
-  if (['home','day','tickets','hotels','more'].indexOf(pageId) === -1) {
+  const topLevel = ['home','day','weather','tickets','hotels','more'];
+  if (topLevel.indexOf(pageId) === -1) {
     document.querySelectorAll('.nav-btn').forEach(n => {
       n.classList.toggle('active', n.dataset.page === 'more');
     });
@@ -985,6 +1006,39 @@ function renderWeather() {
       <td>${w.temp}</td>
     </tr>
   `).join('');
+
+  // Today highlight card
+  const todayStr = new Date().toISOString().slice(5, 10).replace('-', '/');
+  const today = TRIP.weather.find(w => w.d === todayStr);
+  const card = document.getElementById('weather-today-card');
+  if (today) {
+    card.innerHTML = `
+      <div class="hero-banner" style="background: linear-gradient(135deg, #5b7c99 0%, #3e5572 100%);">
+        <div class="label" style="opacity:.9">今日 ${todayStr} · ${today.loc}</div>
+        <div style="font-size:18px; font-weight:600; margin-top:6px">${today.trip}</div>
+        <div style="font-size:13px; margin-top:8px; opacity:.92">
+          ECMWF: ${today.ecmwf}<br>
+          tenki: ${today.tenki}<br>
+          气温: ${today.temp}
+        </div>
+      </div>
+    `;
+  } else {
+    // Show departure countdown if before trip
+    const depDate = new Date(2026, 3, 20);
+    const diff = Math.ceil((depDate - new Date()) / 86400000);
+    if (diff > 0) {
+      card.innerHTML = `
+        <div class="hero-banner">
+          <div class="num" style="font-size:32px">D-${diff}</div>
+          <div class="label">出发还有 ${diff} 天</div>
+          <div class="trip-dates">4/20 抵东京 · 天气见下表</div>
+        </div>
+      `;
+    } else {
+      card.innerHTML = '';
+    }
+  }
 }
 
 function renderPacking() {
