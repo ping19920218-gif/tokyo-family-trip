@@ -288,7 +288,7 @@ a { color: inherit; }
     <span>🌸 东京家族行</span>
     <span class="countdown" id="countdown">准备中</span>
   </div>
-  <div class="trip-sub">4/20 - 4/26 · 一家三口 · v34 (4/19 weather)</div>
+  <div class="trip-sub">4/20 - 4/26 · 一家三口 · 4/20 weather refresh</div>
 </header>
 
 <!-- ========== Pages ========== -->
@@ -307,7 +307,7 @@ a { color: inherit; }
       <div class="emoji">🌸</div>
       <div class="label">POWDER FLOWER</div>
       <div class="val">4/25 去 粉蝶花</div>
-      <div class="small-muted" style="font-size:10.5px; margin-top:2px">vs 4/24 优 · 仍有轻雨可能</div>
+      <div class="small-muted" style="font-size:10.5px; margin-top:2px">✨ 4/20 refresh·两家都转晴·无雨</div>
     </div>
     <div class="decision-card stop">
       <div class="emoji">🚫</div>
@@ -443,18 +443,18 @@ a { color: inherit; }
 <section class="page" id="page-weather">
   <div id="weather-today-card"></div>
 
-  <div class="section-label">⚠ 天气关键提示</div>
+  <div class="section-label">⚠ 天气关键提示（4/20 最新）</div>
   <div class="callout alert" style="margin-bottom:10px">
-    🌡 <strong>4/22 芝樱祭 本栖湖</strong>早晨 4°C 最冷 · 宝宝必备 4 层保暖（厚连体衣+抓绒+保暖帽+毛毯）
+    🌡 <strong>4/22 芝樱祭 本栖湖</strong>早晨 4-5°C 最冷 · 宝宝必备 4 层保暖（厚连体衣+抓绒+保暖帽+毛毯）
   </div>
   <div class="callout alert" style="margin-bottom:10px">
-    🌧 <strong>4/23 河口湖</strong>雨 90%/8mm · <strong>4/24 东京</strong>暴雨 93%/26mm · 带冲锋衣+大伞，4/23 跳过大石公园
+    🌧 <strong>4/23 河口湖</strong>大雨 98%/15mm（tenki 22mm）· <strong>4/24 东京</strong>暴雨 98%/25mm · 冲锋衣+大伞必备，4/23 跳过大石公园
   </div>
   <div class="callout ok" style="margin-bottom:10px">
-    🌸 <strong>4/25 粉蝶花</strong>ECMWF 雨 22%/6.8mm + tenki 曇のち晴 40% · 比 4/24 显著好 · 4 层保暖（海边风）
+    ✨ <strong>4/25 粉蝶花 天气大幅改善！</strong>ECMWF 阴 24%/0mm · tenki 晴時々曇 30% · 两家都转无雨 · 4 层保暖（海边风 10-13°C）
   </div>
 
-  <div class="section-label">🌤 完整 7 天表（4/19 update）</div>
+  <div class="section-label">🌤 完整 7 天表（4/20 update）</div>
   <div class="card">
     <table class="weather-table">
       <thead>
@@ -469,7 +469,7 @@ a { color: inherit; }
   <div class="callout info">
     <strong>数据源</strong>：open-meteo ECMWF IFS025（精确坐标）+ tenki.jp 日本気象協会。<br>
     <strong>坐标</strong>：东京 35.63N/139.73 · 河口湖 35.51/138.76 · 本栖湖 35.47/138.59 · 海浜公園 36.40/140.59<br>
-    <strong>更新</strong>：2026-04-19 最后一次双源交叉
+    <strong>更新</strong>：2026-04-20 最新双源交叉（出发日 refresh）
   </div>
 
   <div class="section-label">📲 出发后自查渠道</div>
@@ -568,7 +568,7 @@ const TRIP = {
     {
       n: 1, date: '2026-04-20', dow: '周一', title: '抵达',
       theme: '今晚唯一目标：全家尽快躺平',
-      weather: { ecmwf: '阴 0% / 0mm', tenki: '晴時々曇 20%', temp: '13-23°C' },
+      weather: { ecmwf: '阴 10% / 0mm', tenki: '晴時々曇 20%', temp: '13-25°C' },
       hotel: { name: 'Villa Fontaine Grand Haneda T3', phone: '03-6302-0508', checkIn: '接近24:00' },
       items: [
         { time: '22:20', title: '到达羽田 T2', desc: '入境取行李' },
@@ -580,7 +580,7 @@ const TRIP = {
     {
       n: 2, date: '2026-04-21', dow: '周二', title: '去河口湖 + 温泉',
       theme: '轻装上阵，到了就泡汤',
-      weather: { ecmwf: '毛雨 49% / 2mm', tenki: '曇のち晴 40%', temp: '8-20°C' },
+      weather: { ecmwf: '毛雨 55% / 1.3mm', tenki: '曇のち晴 40%', temp: '10-23°C' },
       hotel: { name: '若草之宿 丸栄', phone: '+81-555-72-1371', checkIn: '15:00-17:00', note: '免费接驳车：到河口湖站后打电话给若草' },
       items: [
         { time: '09:15', title: 'Villa Fontaine 退房', desc: '截止 11:00，提前走留足换乘余量' },
@@ -606,7 +606,7 @@ const TRIP = {
     {
       n: 3, date: '2026-04-22', dow: '周三', title: '芝樱祭',
       theme: '这天只安排芝樱一个景点 · 节奏放松',
-      weather: { ecmwf: '阴 3% / 0mm (本栖湖 5.7-16.2°C)', tenki: '晴のち曇 30% (4-20°C)', temp: '4-18°C ⚠冷', cold: true },
+      weather: { ecmwf: '毛雨 11% / 0.3mm (本栖湖 5.2-16°C)', tenki: '晴のち曇 30% (4-19°C)', temp: '4-19°C ⚠早晨5°C', cold: true },
       hotel: { name: 'Haostay Kawaguchiko', phone: '+81-555-28-4377', checkIn: '15:00-21:00', note: '红线巴士「大木」站 下车步行 400m · 客服 9:00-21:00' },
       items: [
         { time: '07:00', title: '♨️ 最后一次泡汤（可选）', desc: '若草大浴场 6:00 开放' },
@@ -633,7 +633,7 @@ const TRIP = {
     {
       n: 4, date: '2026-04-23', dow: '周四', title: '🚨 改方案：放弃大石公园',
       theme: '大雨 90% / 8.2mm · 跳过大石直接候车',
-      weather: { ecmwf: '雨 92% / 7.9mm', tenki: '曇のち雨 70%', temp: '10-18°C', rain: true },
+      weather: { ecmwf: '雨 98% / 15mm 🔴', tenki: '曇のち雨 90% / 22mm', temp: '9-15°C', rain: true },
       hotel: { name: '新高轮格兰王子', phone: '03-3447-1111', checkIn: '15:00 后', note: '港区高輪 3-13-1 · 品川站步行 10 分钟 / 700m' },
       items: [
         { time: '08:00-09:00', title: '🍳 Haostay 含早餐', desc: '吃完收拾行李' },
@@ -658,7 +658,7 @@ const TRIP = {
     {
       n: 5, date: '2026-04-24', dow: '周五', title: '🚨 东京室内休整日',
       theme: '东京大暴雨 25.8mm 93% · 室内行程',
-      weather: { ecmwf: '大雨 87% / 26.4mm', tenki: '雨時々曇 90%', temp: '10-17°C', rain: true },
+      weather: { ecmwf: '大雨 98% / 25.4mm', tenki: '雨のち曇 90%', temp: '10-16°C', rain: true },
       hotel: { name: '新高轮格兰王子 (续)', phone: '03-3447-1111' },
       items: [
         { time: '09:00', title: '🍳 早餐自理', desc: '高轮口 Wing 高轮商場 1F 便利店/星巴克 or 品川站 Ekipara\n(新高轮不含早餐)' },
@@ -680,7 +680,7 @@ const TRIP = {
     {
       n: 6, date: '2026-04-25', dow: '周六', title: '🌸 粉蝶花',
       theme: '全程最期待的日子',
-      weather: { ecmwf: '雨 22% / 6.8mm', tenki: '曇のち晴 40%', temp: '6-16°C 海边风', mixed: true },
+      weather: { ecmwf: '阴 24% / 0mm ✨', tenki: '晴時々曇 30%', temp: '6-16°C 海边风', mixed: true },
       hotel: { name: '新高轮格兰王子 (续)', phone: '03-3447-1111' },
       items: [
         { time: '07:45-08:30', title: '🍳 早餐自理', desc: '前一晚买好便利店早餐房间吃最稳\n新高轮不含早餐' },
@@ -705,7 +705,7 @@ const TRIP = {
     {
       n: 7, date: '2026-04-26', dow: '周日', title: '回深圳',
       theme: '平安到家',
-      weather: { ecmwf: '阴 8% / 0mm', tenki: '晴 10% (12-23°C)', temp: '9-22°C' },
+      weather: { ecmwf: '基本晴 7% / 0mm', tenki: '晴時々曇 20%', temp: '8-22°C' },
       items: [
         { time: '07:00', title: '☕ 早餐自理', desc: '前一晚买便利店房间吃' },
         { time: '08:00', title: '退房 新高轮', desc: '11:00 前' },
@@ -738,13 +738,13 @@ const TRIP = {
   ],
 
   weather: [
-    { d: '4/20', trip: '抵羽田', loc: '东京', ecmwf: '阴 0%/0mm', tenki: '晴時々曇 20%', temp: '13-22.5°C' },
-    { d: '4/21', trip: '去河口湖', loc: '河口湖', ecmwf: '毛雨 49%/2mm', tenki: '曇のち晴 40%', temp: '8-20°C' },
-    { d: '4/22', trip: '芝樱祭', loc: '本栖湖', ecmwf: '阴 3%/0mm', tenki: '晴のち曇 30%', temp: '4-18°C ⚠' },
-    { d: '4/23', trip: '大石→东京', loc: '河口湖', ecmwf: '雨 92%/7.9mm 🚨', tenki: '曇のち雨 70%', temp: '10-18°C', highlight: true },
-    { d: '4/24', trip: '东京休整', loc: '东京', ecmwf: '大雨 87%/26.4mm 🚨', tenki: '雨時々曇 90%', temp: '10-17°C', highlight: true },
-    { d: '4/25', trip: '粉蝶花 ✅', loc: '海浜公園', ecmwf: '雨 22%/6.8mm', tenki: '曇のち晴 40%', temp: '6-16°C', highlight: true },
-    { d: '4/26', trip: '回羽田', loc: '东京', ecmwf: '阴 8%/0mm', tenki: '晴 10%', temp: '9-22°C' }
+    { d: '4/20', trip: '抵羽田', loc: '东京', ecmwf: '阴 10%/0mm', tenki: '晴時々曇 20%', temp: '13-25°C' },
+    { d: '4/21', trip: '去河口湖', loc: '河口湖', ecmwf: '毛雨 55%/1.3mm', tenki: '曇のち晴 40%', temp: '10-23°C' },
+    { d: '4/22', trip: '芝樱祭', loc: '本栖湖', ecmwf: '毛雨 11%/0.3mm', tenki: '晴のち曇 30%', temp: '4-19°C ⚠' },
+    { d: '4/23', trip: '大石→东京', loc: '河口湖', ecmwf: '雨 98%/15mm 🔴', tenki: '曇のち雨 90%/22mm', temp: '9-15°C', highlight: true },
+    { d: '4/24', trip: '东京休整', loc: '东京', ecmwf: '大雨 98%/25.4mm 🔴', tenki: '雨のち曇 90%', temp: '10-16°C', highlight: true },
+    { d: '4/25', trip: '粉蝶花 ✅', loc: '海浜公園', ecmwf: '阴 24%/0mm ✨', tenki: '晴時々曇 30%', temp: '6-16°C', highlight: true },
+    { d: '4/26', trip: '回羽田', loc: '东京', ecmwf: '基本晴 7%/0mm', tenki: '晴時々曇 20%', temp: '8-22°C' }
   ],
 
   packing: [
