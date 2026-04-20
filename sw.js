@@ -1,5 +1,5 @@
-// Service Worker - offline cache for trip PWA
-const CACHE = 'tokyo-trip-v1';
+// Service Worker v2 - network-first for HTML, cache-first for static assets
+const CACHE = 'tokyo-trip-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -20,25 +20,46 @@ self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', e => {
   const { request } = e;
-  // Only cache same-origin GET
   if (request.method !== 'GET' || !request.url.startsWith(self.location.origin)) return;
 
-  e.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) return cached;
-      return fetch(request).then(res => {
-        // Cache a copy for next time (best-effort)
+  const url = new URL(request.url);
+  const isHTML = request.mode === 'navigate'
+               || request.destination === 'document'
+               || url.pathname === '/'
+               || url.pathname.endsWith('/')
+               || url.pathname.endsWith('.html');
+
+  if (isHTML) {
+    // Network-first: always try fresh HTML; fall back to cache when offline
+    e.respondWith(
+      fetch(request, { cache: 'no-store' }).then(res => {
         const copy = res.clone();
         caches.open(CACHE).then(c => c.put(request, copy)).catch(() => {});
         return res;
-      }).catch(() => cached || new Response('offline', { status: 503 }));
-    })
-  );
+      }).catch(() => caches.match(request).then(r => r || new Response('offline', { status: 503 })))
+    );
+  } else {
+    // Cache-first for static assets (icons, manifest, etc.)
+    e.respondWith(
+      caches.match(request).then(cached => {
+        if (cached) return cached;
+        return fetch(request).then(res => {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(request, copy)).catch(() => {});
+          return res;
+        }).catch(() => cached || new Response('offline', { status: 503 }));
+      })
+    );
+  }
+});
+
+// Allow page to ask SW to skip waiting
+self.addEventListener('message', e => {
+  if (e.data === 'SKIP_WAITING') self.skipWaiting();
 });

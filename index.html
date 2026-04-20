@@ -288,7 +288,7 @@ a { color: inherit; }
     <span>🌸 东京家族行</span>
     <span class="countdown" id="countdown">准备中</span>
   </div>
-  <div class="trip-sub">4/20 - 4/26 · 一家三口 · 4/21 weather refresh</div>
+  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/21 11:05</div>
 </header>
 
 <!-- ========== Pages ========== -->
@@ -1214,9 +1214,29 @@ if (diff >= 1 && diff <= 7) {
 
 updateCountdown();
 
-// Service Worker for offline
+// Service Worker for offline + auto-update
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    // Check for updates every time the page loads
+    reg.update().catch(() => {});
+    reg.addEventListener('updatefound', () => {
+      const nw = reg.installing;
+      if (!nw) return;
+      nw.addEventListener('statechange', () => {
+        if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+          // New SW ready → tell it to activate, then reload
+          nw.postMessage('SKIP_WAITING');
+        }
+      });
+    });
+  }).catch(() => {});
+
+  let reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloading) return;
+    reloading = true;
+    window.location.reload();
+  });
 }
 </script>
 
