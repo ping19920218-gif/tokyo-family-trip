@@ -288,7 +288,7 @@ a { color: inherit; }
     <span>🌸 东京家族行</span>
     <span class="countdown" id="countdown">准备中</span>
   </div>
-  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/21 11:05</div>
+  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/21 11:30 · <span id="sync-status">🔄 同步中</span></div>
 </header>
 
 <!-- ========== Pages ========== -->
@@ -868,6 +868,7 @@ function renderPredeparture() {
 function toggleTodo(key, el) {
   localStorage.setItem(key, el.checked ? '1' : '0');
   el.parentElement.classList.toggle('done', el.checked);
+  syncSetCheckbox(key, el.checked);
 }
 
 function renderHomeDays() {
@@ -1081,6 +1082,7 @@ function renderPacking() {
 function togglePack(key, el) {
   localStorage.setItem(key, el.checked ? '1' : '0');
   el.parentElement.classList.toggle('done', el.checked);
+  syncSetCheckbox(key, el.checked);
 }
 
 function renderFeeding() {
@@ -1213,6 +1215,68 @@ if (diff >= 1 && diff <= 7) {
 }
 
 updateCountdown();
+
+// ============ CLOUD SYNC (shared state between 2 devices via JSONBlob) ============
+const SYNC_URL = 'https://jsonblob.com/api/jsonBlob/019dafe3-fab0-7a0f-aa60-14e54c1f1296';
+const DEVICE_ID = (() => {
+  let id = localStorage.getItem('deviceId');
+  if (!id) { id = Math.random().toString(36).slice(2, 8); localStorage.setItem('deviceId', id); }
+  return id;
+})();
+let syncState = { checkboxes: {}, lastUpdated: '1970', updatedBy: 'init' };
+let pushTimer = null;
+let lastPulledAt = 0;
+
+function setSyncStatus(txt) {
+  const el = document.getElementById('sync-status');
+  if (el) el.textContent = txt;
+}
+
+async function syncPull() {
+  try {
+    const res = await fetch(SYNC_URL, { cache: 'no-store' });
+    if (!res.ok) { setSyncStatus('⚠ 同步失败'); return; }
+    const remote = await res.json();
+    if (!remote || !remote.checkboxes) return;
+    // If remote is newer, apply to UI
+    if (remote.lastUpdated && remote.lastUpdated > syncState.lastUpdated) {
+      syncState = remote;
+      Object.keys(remote.checkboxes).forEach(k => {
+        const input = document.querySelector(`input[onchange*="'${k}'"]`);
+        if (input && input.checked !== !!remote.checkboxes[k]) {
+          input.checked = !!remote.checkboxes[k];
+          if (input.parentElement) input.parentElement.classList.toggle('done', input.checked);
+          localStorage.setItem(k, input.checked ? '1' : '0');
+        }
+      });
+    }
+    lastPulledAt = Date.now();
+    const agoStr = remote.updatedBy === DEVICE_ID ? '你刚改' : (remote.updatedBy === 'init' ? '等变更' : '对方刚改');
+    setSyncStatus(`✅ 已同步·${agoStr}`);
+  } catch (e) { setSyncStatus('⚠ 网络'); }
+}
+
+function syncSetCheckbox(key, value) {
+  syncState.checkboxes[key] = !!value;
+  setSyncStatus('↑ 同步中...');
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(async () => {
+    try {
+      syncState.lastUpdated = new Date().toISOString();
+      syncState.updatedBy = DEVICE_ID;
+      const res = await fetch(SYNC_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(syncState)
+      });
+      setSyncStatus(res.ok ? '✅ 已同步' : '⚠ 同步失败');
+    } catch (e) { setSyncStatus('⚠ 无网络'); }
+  }, 400);
+}
+
+// Pull initial + every 8 sec
+syncPull();
+setInterval(syncPull, 8000);
 
 // Service Worker for offline + auto-update
 if ('serviceWorker' in navigator) {
