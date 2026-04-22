@@ -288,7 +288,7 @@ a { color: inherit; }
     <span>🌸 东京家族行</span>
     <span class="countdown" id="countdown">准备中</span>
   </div>
-  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/22 10:00 · <span id="sync-status">🔄 同步中</span></div>
+  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/22 21:30 · <span id="sync-status">🔄 同步中</span></div>
 </header>
 
 <!-- ========== Pages ========== -->
@@ -443,18 +443,24 @@ a { color: inherit; }
 <section class="page" id="page-weather">
   <div id="weather-today-card"></div>
 
-  <div class="section-label">⚠ 天气关键提示（4/22 最新）</div>
+  <div class="section-label">⚠ 天气关键提示（4/22 晚 第 7 轮）</div>
   <div class="callout warn" style="margin-bottom:10px">
-    🟡 <strong>4/22 芝樱祭（今天）</strong> ECMWF 10%/<strong>0.7mm</strong> · tenki 晴のち曇 30%/0mm · 本栖湖早晨 5°C · 可能短暂飘雨 <1mm · 备小折叠伞
+    ⚠ <strong>数据源说明</strong>：今晚 ECMWF/tenki.jp 暂不通，用 yr.no (MET Norway · ECMWF+自家模型) 作为单源。置信度降档。明早双源恢复再交叉。
   </div>
   <div class="callout alert" style="margin-bottom:10px">
-    🌧🔴 <strong>4/23 河口湖</strong>中雨 <strong>100%/23.5mm</strong>（tenki 35mm）· <strong>4/24 东京</strong>雨 100%/13.7mm（tenki 雨のち晴）· 冲锋衣+大伞必备 · 4/23 跳过大石已铁定
+    🌧🔴 <strong>4/23 大石公园日（去）</strong>ECMWF 100%/23.5mm · tenki 35mm · yr.no <strong>河口湖 40mm</strong> · 体感 7-12°C · 防雨装备齐全：婴儿车雨罩+大伞+冲锋衣+宝宝 4 层保暖
+  </div>
+  <div class="callout warn" style="margin-bottom:10px">
+    🟡 <strong>4/24 东京</strong>：ECMWF 100%/13.7mm · yr.no <strong>0mm 清晴</strong>（单源大反转·可能恢复 Day 5 新宿御苑+台场计划）· 明早再确认
   </div>
   <div class="callout ok" style="margin-bottom:10px">
-    🎉 <strong>4/25 粉蝶花 完美晴天锁定！</strong> ECMWF <strong>晴 0%/0mm</strong> · tenki <strong>晴 10%</strong> · 两家双双升级 · 海边风冷 4-17°C · 4 层保暖保留
+    🎉 <strong>4/25 粉蝶花 完美晴天持续！</strong> ECMWF 0%/0mm · tenki 晴 10% · yr.no 0mm · 三源确认 · 海边风冷 10-15°C
+  </div>
+  <div class="callout warn" style="margin-bottom:10px">
+    🟡 <strong>4/26 回家日</strong>：ECMWF 29%/1.3mm · yr.no <strong>12.7mm 有雨</strong>（单源悪化）· 明早再查
   </div>
 
-  <div class="section-label">🌤 完整 7 天表（4/22 update）</div>
+  <div class="section-label">🌤 完整 7 天表（4/22 晚 update · yr.no 单源）</div>
   <div class="card">
     <table class="weather-table">
       <thead>
@@ -633,17 +639,18 @@ const TRIP = {
       ]
     },
     {
-      n: 4, date: '2026-04-23', dow: '周四', title: '🚨 改方案：放弃大石公园',
-      theme: '大雨 90% / 8.2mm · 跳过大石直接候车',
-      weather: { ecmwf: '中雨 100% / 23.5mm 🔴', tenki: '曇のち雨 90% / 35mm 🔴', temp: '9-14°C', rain: true },
+      n: 4, date: '2026-04-23', dow: '周四', title: '大石公园（雨天冒险版）',
+      theme: '⚠ 雨天 21-40mm · 坚持去 · 防雨装备齐全',
+      weather: { ecmwf: '中雨 100% / 23.5mm 🔴', tenki: '曇のち雨 90% / 35mm 🔴', yr: '河口湖 40.4mm 🔴', temp: '7-12°C', rain: true },
       hotel: { name: '新高轮格兰王子', phone: '03-3447-1111', checkIn: '15:00 后', note: '港区高輪 3-13-1 · 品川站步行 10 分钟 / 700m' },
       items: [
         { time: '08:00-09:00', title: '🍳 Haostay 含早餐', desc: '吃完收拾行李' },
-        { time: '09:30', title: 'Haostay 退房', desc: '10:00 前退房\n坐 Haostay 免费接驳车去河口湖站\n班次：09:00 / 09:30 / 10:00 三班\n⭐ 选 09:30 那班刚好' },
-        { time: '10:00', title: '🚨 原计划大石公园 → 跳过', desc: '大雨 8.2mm / 92% 概率\n带 6 月龄宝宝湖畔无遮蔽不值冒险\n（若当天意外放晴，见备选方案 page）', pill: 'alert', pillText: '改方案' },
-        { time: '10:00-10:30', title: '河口湖站 寄存行李 + 休息', desc: '投币储物柜寄存\n喂奶 / 换尿布' },
-        { time: '11:30-13:00', title: '🍜 河口湖站附近午餐', desc: '① ほうとう不動 河口湖駅前店（站前 1 分钟 · ¥1,100-1,650 · 铁锅ほうとう · 室内避雨）\n② ほうとう小作 河口湖店（站步行 5 分钟 · 船津 1638-1 · 南瓜ほうとう ¥1,200-1,800 · 4★ · 当地最有名）\n③ 甲州屋（站步行 5 分钟 · 炸牛排 · 4.9★）' },
-        { time: '13:00-15:30', title: '🛋 河口湖站候车', desc: '取寄存行李\n站内休息 / 喂奶 / 便利店\n时间充裕不赶路' },
+        { time: '09:30', title: 'Haostay 退房', desc: '10:00 前退房\n坐 Haostay 免费接驳车去河口湖站\n班次：09:00 / 09:30 / 10:00 三班' },
+        { time: '09:45-10:15', title: '🌧 河口湖站→大石公园', desc: '红线周游巴士（约 25 分钟·每 15 分钟一班）\n或打车（约 10 分钟·~¥1,500）\n大石公园 = 红线终点站「河口湖自然生活館」\n⚠ 行李先投币储物柜寄存' },
+        { time: '10:15-11:30', title: '🌧⚠ 大石公园湖畔散步（雨天！）', desc: '🚨 大雨预报 21-40mm · 必备：\n  · 婴儿车雨罩 + 大伞 × 2\n  · 冲锋衣 · 防水鞋\n  · 宝宝防雨保暖\n\n📍 缩短版路线（30 分钟·0.5km 往返）：\n河口湖自然生活馆（⭐室内避雨点·1F 母婴室）\n→ 生活馆前广场（拍富士山经典构图 · 大雨可能看不到）\n→ 尽量在廊下/生活馆内逗留\n\n⚠ 体感 7-12°C + 雨 · 宝宝保暖 4 层必备', map: 'Oishi+Park+Kawaguchiko' },
+        { time: '11:30-13:00', title: '🍜 大石公园午餐', desc: '推荐优先留大石（生活馆内）避雨：\n① ⭐ キッチンフジヤマビュー（生活馆 2F · 0 分钟）\n  富士山形咖喱饭 · 和风咖喱 · クレミア软冰\n  食事 9:30-15:00 · 离母婴室最近\n② 葡萄屋 kofu ハナテラス cafe（步行 3 分钟）\n  意面/三明治+葡萄酒 · 室内+露台 · ¥1,500-2,500\n③ BRAND NEW DAY COFFEE（ハナテラス内·步行 3 分钟）\n  本格石窑披萨 · ¥1,500-2,000' },
+        { time: '13:00-13:30', title: '🚌 红线巴士回河口湖站', desc: '约 25 分钟 · 每 15 分钟一班\n或打车约 10 分钟·~¥1,500' },
+        { time: '13:30-15:30', title: '🛋 河口湖站候车', desc: '取寄存行李\n站内休息 / 喂奶（⚠ 无专用哺乳室）/ 便利店\n时间充裕不赶路' },
         { time: '15:39', title: '🚂 富士回游 94 号', desc: '河口湖→新宿\n1号車 16A+16B (A 侧看富士山 · 尾排)\n17:45 到新宿\n予約 E55904', pill: 'ok', pillText: 'IC 卡 tap' },
         { time: '17:45-18:10', title: '新宿→品川', desc: 'JR 山手线约 20 分钟' },
         { time: '18:10-18:20', title: '品川→新高轮', desc: '品川站高轮口出 · 步行 10 分钟 700m\n带宝宝+行李建议打车', map: 'Grand+Prince+Hotel+Shin+Takanawa' },
@@ -652,8 +659,8 @@ const TRIP = {
       ],
       feeding: [
         { time: '8:30', place: 'Haostay 房间内' },
-        { time: '11:30', place: '大石公园大石自然生活館 1F母婴室（⚠ 改方案跳过大石后，改河口湖站）' },
-        { time: '14:30', place: '河口湖站附近 (哺乳室 · 便利店) ' },
+        { time: '11:30', place: '⭐ 大石自然生活館 1F 母婴室（河口湖周边设施最齐全：哺乳室+尿布台+微波炉+婴儿车租借+热水）' },
+        { time: '14:30', place: '河口湖站候车室附近（⚠ 无专用哺乳室·用哺乳巾 or 推到车上 17:00）' },
         { time: '17:00', place: '富士回游车上多目的室（17:45 到新宿前喂完）' }
       ]
     },
@@ -743,10 +750,10 @@ const TRIP = {
     { d: '4/20', trip: '抵羽田(过去)', loc: '东京', ecmwf: '阴 10%/0mm', tenki: '晴時々曇 20%', temp: '13-25°C' },
     { d: '4/21', trip: '去河口湖(过去)', loc: '河口湖', ecmwf: '毛雨 36%/1.5mm', tenki: '曇のち晴 40%/0mm', temp: '9-22°C' },
     { d: '4/22', trip: '芝樱祭（今天）', loc: '本栖湖', ecmwf: '毛雨 10%/0.7mm', tenki: '晴のち曇 30%/0mm', temp: '5-16°C ⚠早晨冷' },
-    { d: '4/23', trip: '大石→东京', loc: '河口湖', ecmwf: '中雨 100%/23.5mm 🔴', tenki: '曇のち雨 90%/35mm', temp: '9-14°C', highlight: true },
-    { d: '4/24', trip: '东京休整', loc: '东京', ecmwf: '雨 100%/13.7mm', tenki: '雨のち晴 90%', temp: '12-23°C', highlight: true },
-    { d: '4/25', trip: '粉蝶花 ⭐', loc: '海浜公園', ecmwf: '晴 0%/0mm ✨', tenki: '晴 10%', temp: '4-17°C', highlight: true },
-    { d: '4/26', trip: '回羽田', loc: '东京', ecmwf: '毛雨 29%/1.3mm', tenki: '晴のち曇 40%', temp: '9-19°C' }
+    { d: '4/23', trip: '大石→东京（去）', loc: '河口湖', ecmwf: '100%/23.5mm · yr.no 40mm 🔴', tenki: '90%/35mm', temp: '7-12°C', highlight: true },
+    { d: '4/24', trip: '东京', loc: '东京', ecmwf: '100%/13.7mm · yr.no 0mm ✨', tenki: '雨のち晴 90%', temp: '10-19°C', highlight: true },
+    { d: '4/25', trip: '粉蝶花 ⭐', loc: '海浜公園', ecmwf: '晴 0%/0mm · yr.no 0mm ✨', tenki: '晴 10%', temp: '10-15°C', highlight: true },
+    { d: '4/26', trip: '回羽田', loc: '东京', ecmwf: '毛雨 29%/1.3mm · yr.no 12.7mm 🔴', tenki: '晴のち曇 40%', temp: '12-18°C' }
   ],
 
   packing: [
