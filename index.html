@@ -288,7 +288,7 @@ a { color: inherit; }
     <span>🌸 东京家族行</span>
     <span class="countdown" id="countdown">准备中</span>
   </div>
-  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/23 10:00 · 11点退房行李寄存版 · <span id="sync-status">🔄 同步中</span></div>
+  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/23 22:00 · 天气 r9 · <span id="sync-status">🔄 同步中</span></div>
 </header>
 
 <!-- ========== Pages ========== -->
@@ -443,24 +443,21 @@ a { color: inherit; }
 <section class="page" id="page-weather">
   <div id="weather-today-card"></div>
 
-  <div class="section-label">⚠ 天气关键提示（4/23 早 第 8 轮）</div>
+  <div class="section-label">⚠ 天气关键提示（4/23 晚 r9）</div>
+  <div class="callout ok" style="margin-bottom:10px">
+    🎉 <strong>4/24 东京</strong> · JMA 曇一時雨 + yr.no 0mm 多云 · 9-19°C · 新宿御苑+台场按 v34 · 带伞防短雨
+  </div>
+  <div class="callout ok" style="margin-bottom:10px">
+    🎉🎉 <strong>4/25 粉蝶花 · 晴锁死！</strong> JMA 晴時々曇 10%（比 20% 更好）· yr.no 0mm partlycloudy · 8-15°C 海边风 · 4 层保暖保留
+  </div>
   <div class="callout alert" style="margin-bottom:10px">
-    🌧🔴 <strong>4/23 今天 · 大雨日</strong> · JMA 曇後雨 · yr.no 河口湖 35mm · 东京 28mm · 体感 8-14°C · 婴儿车雨罩+大伞+冲锋衣+宝宝 4 层保暖 · 缩短版大石行程
-  </div>
-  <div class="callout ok" style="margin-bottom:10px">
-    🎉 <strong>4/24 东京</strong> · JMA 曇一時雨 50% + yr.no 0mm 清晴 · 9-19°C · Day 5 新宿御苑+台场按 v34 原计划·带伞防早上短雨
-  </div>
-  <div class="callout ok" style="margin-bottom:10px">
-    🎉🎉 <strong>4/25 粉蝶花 · 三源锁死晴！</strong> JMA 晴時々曇 20% + yr.no clearsky 0mm · 10-18°C 海边风 · 4 层保暖保留
-  </div>
-  <div class="callout warn" style="margin-bottom:10px">
-    🟡 <strong>4/26 回家</strong> · JMA 曇時々晴 30% 乐观 · yr.no 8.3mm heavyrain 悲观 · 两源分歧 · 备伞
+    🔴 <strong>4/26 回家 · 两源分歧放大</strong> · JMA 曇時々晴 30% 乐观 · yr.no <strong>17.5mm heavyrain</strong>（比昨 8.3mm ×2）· <strong>备大伞</strong> · 品川→羽田 T3 京急 13 分钟（室内为主可避）
   </div>
   <div class="callout info" style="margin-bottom:10px">
-    📡 今早 ECMWF (open-meteo) + tenki.jp 暂不通 · 使用 JMA 官方 + yr.no (ECMWF+MET Norway) 双源交叉 · 置信度仍可保证
+    📡 ECMWF (open-meteo) + tenki.jp 连续不通（proxy flaky） · 继续 JMA 官方 + yr.no 双源交叉
   </div>
 
-  <div class="section-label">🌤 完整 7 天表（4/23 早 update · JMA + yr.no）</div>
+  <div class="section-label">🌤 完整 7 天表（4/23 晚 r9 update）</div>
   <div class="card">
     <table class="weather-table">
       <thead>
@@ -668,7 +665,7 @@ const TRIP = {
     {
       n: 5, date: '2026-04-24', dow: '周五', title: '新宿御苑 + 台场海滨',
       theme: '八重樱+新绿的日式庭园 + 东京湾天际线',
-      weather: { ecmwf: 'JMA 曇一時雨 50%', tenki: 'yr.no 0mm fair', temp: '9-19°C · 🎉 基本晴 备伞' },
+      weather: { ecmwf: 'JMA 曇一時雨', tenki: 'yr.no 0mm fair+多云', temp: '9-19°C · 🎉 基本晴 备伞' },
       hotel: { name: '新高轮格兰王子 (续)', phone: '03-3447-1111' },
       items: [
         { time: '08:30-09:00', title: '🍳 早餐自理', desc: '高轮口 Wing 高轮商場 1F 便利店/星巴克\nor 品川站内 Ekipara/駅弁\n（新高轮不含早餐）' },
@@ -696,7 +693,7 @@ const TRIP = {
     {
       n: 6, date: '2026-04-25', dow: '周六', title: '🌸 粉蝶花',
       theme: '全程最期待的日子',
-      weather: { ecmwf: 'JMA 晴時々曇 20%', tenki: 'yr.no 0mm clearsky', temp: '10-18°C 海边风 · 🎉 三源晴', mixed: false },
+      weather: { ecmwf: 'JMA 晴時々曇 10%', tenki: 'yr.no 0mm partlycloudy', temp: '8-15°C 海边风 · 🎉 晴锁死', mixed: false },
       hotel: { name: '新高轮格兰王子 (续)', phone: '03-3447-1111' },
       items: [
         { time: '07:45-08:30', title: '🍳 早餐自理', desc: '前一晚买好便利店早餐房间吃最稳\n新高轮不含早餐' },
@@ -721,7 +718,7 @@ const TRIP = {
     {
       n: 7, date: '2026-04-26', dow: '周日', title: '回深圳',
       theme: '平安到家',
-      weather: { ecmwf: 'JMA 曇時々晴 30%', tenki: 'yr.no 8.3mm heavyrain', temp: '14-19°C · 两源分歧 · 备伞' },
+      weather: { ecmwf: 'JMA 曇時々晴 30%', tenki: 'yr.no 17.5mm heavyrain 🔴', temp: '14-18°C · 两源分歧放大 · 必备伞' },
       items: [
         { time: '07:00', title: '☕ 早餐自理', desc: '前一晚买便利店房间吃' },
         { time: '08:00', title: '退房 新高轮', desc: '11:00 前' },
@@ -758,9 +755,9 @@ const TRIP = {
     { d: '4/21', trip: '去河口湖(过去)', loc: '河口湖', ecmwf: '毛雨 36%/1.5mm', tenki: '曇のち晴 40%/0mm', temp: '9-22°C' },
     { d: '4/22', trip: '芝樱祭（今天）', loc: '本栖湖', ecmwf: '毛雨 10%/0.7mm', tenki: '晴のち曇 30%/0mm', temp: '5-16°C ⚠早晨冷' },
     { d: '4/23', trip: '大石→东京（今天）', loc: '河口湖', ecmwf: '(不通)', tenki: '(不通)', temp: '8-14°C · JMA 曇後雨 · yr.no 35mm 🔴 大雨', highlight: true },
-    { d: '4/24', trip: '东京', loc: '东京', ecmwf: '(不通)', tenki: '(不通)', temp: '9-19°C · JMA 曇一時雨 50% · yr.no 0mm ✨ 基本晴', highlight: true },
-    { d: '4/25', trip: '粉蝶花 ⭐', loc: '海浜公園', ecmwf: '(不通)', tenki: '(不通)', temp: '10-18°C · JMA 晴時々曇 20% · yr.no 0mm ✨ 三源晴', highlight: true },
-    { d: '4/26', trip: '回羽田', loc: '东京', ecmwf: '(不通)', tenki: '(不通)', temp: '14-19°C · JMA 曇時々晴 30% · yr.no 8.3mm 备伞' }
+    { d: '4/24', trip: '东京', loc: '东京', ecmwf: '(不通)', tenki: '(不通)', temp: '9-19°C · JMA 曇一時雨 · yr.no 0mm ✨ 基本晴', highlight: true },
+    { d: '4/25', trip: '粉蝶花 ⭐', loc: '海浜公園', ecmwf: '(不通)', tenki: '(不通)', temp: '8-15°C · JMA 晴時々曇 10% · yr.no 0mm ✨ 晴锁死', highlight: true },
+    { d: '4/26', trip: '回羽田', loc: '东京', ecmwf: '(不通)', tenki: '(不通)', temp: '14-18°C · JMA 曇時々晴 30% · yr.no 17.5mm 🔴 备伞' }
   ],
 
   packing: [
