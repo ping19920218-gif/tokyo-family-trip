@@ -288,7 +288,7 @@ a { color: inherit; }
     <span>🌸 东京家族行</span>
     <span class="countdown" id="countdown">准备中</span>
   </div>
-  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/23 08:30 · <span id="sync-status">🔄 同步中</span></div>
+  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/23 09:30 富士回游已改签 · <span id="sync-status">🔄 同步中</span></div>
 </header>
 
 <!-- ========== Pages ========== -->
@@ -648,20 +648,21 @@ const TRIP = {
         { time: '09:30', title: 'Haostay 退房', desc: '10:00 前退房\n坐 Haostay 免费接驳车去河口湖站\n班次：09:00 / 09:30 / 10:00 三班' },
         { time: '09:45-10:15', title: '🌧 河口湖站→大石公园', desc: '红线周游巴士（约 25 分钟·每 15 分钟一班）\n或打车（约 10 分钟·~¥1,500）\n大石公园 = 红线终点站「河口湖自然生活館」\n⚠ 行李先投币储物柜寄存' },
         { time: '10:15-11:30', title: '🌧⚠ 大石公园湖畔散步（雨天！）', desc: '🚨 大雨预报 21-40mm · 必备：\n  · 婴儿车雨罩 + 大伞 × 2\n  · 冲锋衣 · 防水鞋\n  · 宝宝防雨保暖\n\n📍 缩短版路线（30 分钟·0.5km 往返）：\n河口湖自然生活馆（⭐室内避雨点·1F 母婴室）\n→ 生活馆前广场（拍富士山经典构图 · 大雨可能看不到）\n→ 尽量在廊下/生活馆内逗留\n\n⚠ 体感 7-12°C + 雨 · 宝宝保暖 4 层必备', map: 'Oishi+Park+Kawaguchiko' },
-        { time: '11:30-13:00', title: '🍜 大石公园午餐', desc: '推荐优先留大石（生活馆内）避雨：\n① ⭐ キッチンフジヤマビュー（生活馆 2F · 0 分钟）\n  富士山形咖喱饭 · 和风咖喱 · クレミア软冰\n  食事 9:30-15:00 · 离母婴室最近\n② 葡萄屋 kofu ハナテラス cafe（步行 3 分钟）\n  意面/三明治+葡萄酒 · 室内+露台 · ¥1,500-2,500\n③ BRAND NEW DAY COFFEE（ハナテラス内·步行 3 分钟）\n  本格石窑披萨 · ¥1,500-2,000' },
-        { time: '13:00-13:30', title: '🚌 红线巴士回河口湖站', desc: '约 25 分钟 · 每 15 分钟一班\n或打车约 10 分钟·~¥1,500' },
-        { time: '13:30-15:30', title: '🛋 河口湖站候车', desc: '取寄存行李\n站内休息 / 喂奶（⚠ 无专用哺乳室）/ 便利店\n时间充裕不赶路' },
-        { time: '15:39', title: '🚂 富士回游 94 号', desc: '河口湖→新宿\n1号車 16A+16B (A 侧看富士山 · 尾排)\n17:45 到新宿\n予約 E55904', pill: 'ok', pillText: 'IC 卡 tap' },
-        { time: '17:45-18:10', title: '新宿→品川', desc: 'JR 山手线约 20 分钟' },
-        { time: '18:10-18:20', title: '品川→新高轮', desc: '品川站高轮口出 · 步行 10 分钟 700m\n带宝宝+行李建议打车', map: 'Grand+Prince+Hotel+Shin+Takanawa' },
-        { time: '18:20', title: '入住新高轮格兰王子', desc: '高轮 3-13-1' },
-        { time: '19:00-20:30', title: '🍽 品川晚餐（就近）', desc: '河口湖回来比较累，就近吃：\n① 藏寿司 品川站前店（回转寿司 · 便宜轻松 · 有换尿布台）\n② 大户屋 品川Grand Passage 店（和食定食 · ¥1,000-1,800）' }
+        { time: '11:30-12:45', title: '🍜 大石公园午餐', desc: '推荐优先留大石（生活馆内）避雨：\n① ⭐ キッチンフジヤマビュー（生活馆 2F · 0 分钟）\n  富士山形咖喱饭 · 和风咖喱 · クレミア软冰\n  食事 9:30-15:00 · 离母婴室最近\n② 葡萄屋 kofu ハナテラス cafe（步行 3 分钟）\n  意面/三明治+葡萄酒 · 室内+露台 · ¥1,500-2,500\n③ BRAND NEW DAY COFFEE（ハナテラス内·步行 3 分钟）\n  本格石窑披萨 · ¥1,500-2,000' },
+        { time: '12:45-13:15', title: '🚌 红线巴士回河口湖站', desc: '约 25 分钟 · 每 15 分钟一班\n或打车约 10 分钟·~¥1,500' },
+        { time: '13:15-13:55', title: '🛋 河口湖站候车', desc: '取寄存行李\n站内休息 / 喂奶（⚠ 无专用哺乳室）/ 便利店\n⚠ 发车时间提前了 · 注意别错过' },
+        { time: '14:08', title: '🚂 富士回游 32 号（已改签）', desc: '河口湖→新宿\n1号車 4A+4B（比原 16A+16B 更靠前·好上下车）\n16:08 到新宿\n予約号见 Eki-Net（原 E55904 已改）', pill: 'ok', pillText: 'IC 卡 tap' },
+        { time: '16:08-16:30', title: '新宿→品川', desc: 'JR 山手线约 20 分钟' },
+        { time: '16:30-16:40', title: '品川→新高轮', desc: '品川站高轮口出 · 步行 10 分钟 700m\n带宝宝+行李建议打车（雨天）', map: 'Grand+Prince+Hotel+Shin+Takanawa' },
+        { time: '16:40', title: '入住新高轮格兰王子', desc: '高轮 3-13-1 · 比原计划早 1.5h 到·可休息更充分' },
+        { time: '18:00-20:00', title: '🍽 品川晚餐', desc: '新高轮就近推荐（你实测 Google 4.5+）：\n① ⭐ 和食 清水（酒店 1F · 0 分钟 · 包间 · 饭后逛竹林点灯庭园）\n② 叙々苑 品川王子店（步行 7 分钟 · 焼肉）\n③ 瀧口（步行 12 分钟 · 日本料理 泉岳寺）\n\n河口湖回来累·就近更舒服' }
       ],
       feeding: [
         { time: '8:30', place: 'Haostay 房间内' },
         { time: '11:30', place: '⭐ 大石自然生活館 1F 母婴室（河口湖周边设施最齐全：哺乳室+尿布台+微波炉+婴儿车租借+热水）' },
-        { time: '14:30', place: '河口湖站候车室附近（⚠ 无专用哺乳室·用哺乳巾 or 推到车上 17:00）' },
-        { time: '17:00', place: '富士回游车上多目的室（17:45 到新宿前喂完）' }
+        { time: '13:30', place: '河口湖站候车室附近（⚠ 无专用哺乳室·用哺乳巾）' },
+        { time: '15:30', place: '富士回游 32 号车上多目的室（16:08 到新宿前喂完·找列车员说 Jyunyu）' },
+        { time: '18:00', place: '新高轮酒店房间（晚餐前）' }
       ]
     },
     {
@@ -738,7 +739,7 @@ const TRIP = {
 
   tickets: [
     { id: 'E00960', train: 'Fuji-Excursion 93', date: '04/21', dow: '周二', from: 'SHINJUKU', fromTime: '11:34', to: 'KAWAGUCHIKO', toTime: '13:31', car: '1', seat: '16C+16D', price: '¥3,240', status: 'active' },
-    { id: 'E55904', train: 'Fuji-Excursion 94', date: '04/23', dow: '周四', from: 'KAWAGUCHIKO', fromTime: '15:39', to: 'SHINJUKU', toTime: '17:45', car: '1', seat: '16A+16B', price: '¥3,240', status: 'active' },
+    { id: '已改签', train: 'Fuji-Excursion 32（改签）', date: '04/23', dow: '周四', from: 'KAWAGUCHIKO', fromTime: '14:08', to: 'SHINJUKU', toTime: '16:08', car: '1', seat: '4A+4B', price: '¥3,240', status: 'active' },
     { id: 'E16143', train: 'Tokiwa 55 🚨', date: '04/24', dow: '周五', from: 'SHINAGAWA', fromTime: '09:15', to: 'KATSUTA', toTime: '10:53', car: '6', seat: '3A+3B', price: '¥3,160', status: 'cancel' },
     { id: 'E49558', train: 'Hitachi 20 🚨', date: '04/24', dow: '周五', from: 'KATSUTA', fromTime: '16:21', to: 'SHINAGAWA', toTime: '17:52', car: '4', seat: '17A+17B', price: '¥3,160', status: 'cancel' },
     { id: 'E17127', train: 'Tokiwa 55', date: '04/25', dow: '周六', from: 'SHINAGAWA', fromTime: '09:15', to: 'KATSUTA', toTime: '10:53', car: '6', seat: '3A+3B', price: '¥3,160', status: 'active' },
@@ -780,7 +781,7 @@ const TRIP = {
     { trigger: '☁️ 4/22 阴天不下雨（看不到富士山）', badge: 'info', action: '芝樱照常去',
       detail: '地面花不需要蓝天，阴天拍照还更均匀\n富士山缆车这天不去（没意义）' },
     { trigger: '☀️ 4/23 意外放晴（ECMWF 预报 92% 雨 但真没下）', badge: 'ok', action: '恢复原计划去大石公园',
-      detail: '回到 v33 方案：Haostay → 大石公园 → 河口湖站 → 15:39 富士回游\n⚠ 必须在 Haostay 退房前看雨况决定' },
+      detail: '回到 v33 方案：Haostay → 大石公园 → 河口湖站 → 14:08 富士回游 32 号（已改签）\n⚠ 必须在 Haostay 退房前看雨况决定' },
     { trigger: '⛈ 4/24 东京暴雨·商场也懒得去', badge: 'warn', action: '酒店躺平日',
       detail: '新高轮内部：王子Pavilion 下午茶（¥3,500 左右）\n或品川王子水族館（酒店步行 10 分钟 · 室内）\n宝宝多睡觉也是赚' },
     { trigger: '🌧 4/25 粉蝶花日下雨超预期（tenki 也转雨）', badge: 'alert', action: '缩短或放弃',
