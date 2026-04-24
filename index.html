@@ -288,7 +288,7 @@ a { color: inherit; }
     <span>🌸 东京家族行</span>
     <span class="countdown" id="countdown">准备中</span>
   </div>
-  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/23 22:00 · 天气 r9 · <span id="sync-status">🔄 同步中</span></div>
+  <div class="trip-sub">4/20 - 4/26 · 一家三口 · Build 4/24 10:00 · r10 · <span id="sync-status">🔄 同步中</span></div>
 </header>
 
 <!-- ========== Pages ========== -->
@@ -451,7 +451,7 @@ a { color: inherit; }
     🎉🎉 <strong>4/25 粉蝶花 · 晴锁死！</strong> JMA 晴時々曇 10%（比 20% 更好）· yr.no 0mm partlycloudy · 8-15°C 海边风 · 4 层保暖保留
   </div>
   <div class="callout alert" style="margin-bottom:10px">
-    🔴 <strong>4/26 回家 · 两源分歧放大</strong> · JMA 曇時々晴 30% 乐观 · yr.no <strong>17.5mm heavyrain</strong>（比昨 8.3mm ×2）· <strong>备大伞</strong> · 品川→羽田 T3 京急 13 分钟（室内为主可避）
+    🔴 <strong>4/26 回家 · yr.no 连涨 4 倍</strong> · JMA 曇時々晴 30% 仍乐观 · yr.no <strong>33mm heavyrain</strong>（r9 17.5mm → r10 33mm）· <strong>必备大伞</strong> · 考虑打车替代京急 · 早出门留 buffer
   </div>
   <div class="callout info" style="margin-bottom:10px">
     📡 ECMWF (open-meteo) + tenki.jp 连续不通（proxy flaky） · 继续 JMA 官方 + yr.no 双源交叉
@@ -718,7 +718,7 @@ const TRIP = {
     {
       n: 7, date: '2026-04-26', dow: '周日', title: '回深圳',
       theme: '平安到家',
-      weather: { ecmwf: 'JMA 曇時々晴 30%', tenki: 'yr.no 17.5mm heavyrain 🔴', temp: '14-18°C · 两源分歧放大 · 必备伞' },
+      weather: { ecmwf: 'JMA 曇時々晴 30%', tenki: 'yr.no 33mm heavyrain 🔴', temp: '13-19°C · 两源分歧继续放大 · 必备大伞' },
       items: [
         { time: '07:00', title: '☕ 早餐自理', desc: '前一晚买便利店房间吃' },
         { time: '08:00', title: '退房 新高轮', desc: '11:00 前' },
@@ -757,7 +757,7 @@ const TRIP = {
     { d: '4/23', trip: '大石→东京（今天）', loc: '河口湖', ecmwf: '(不通)', tenki: '(不通)', temp: '8-14°C · JMA 曇後雨 · yr.no 35mm 🔴 大雨', highlight: true },
     { d: '4/24', trip: '东京', loc: '东京', ecmwf: '(不通)', tenki: '(不通)', temp: '9-19°C · JMA 曇一時雨 · yr.no 0mm ✨ 基本晴', highlight: true },
     { d: '4/25', trip: '粉蝶花 ⭐', loc: '海浜公園', ecmwf: '(不通)', tenki: '(不通)', temp: '8-15°C · JMA 晴時々曇 10% · yr.no 0mm ✨ 晴锁死', highlight: true },
-    { d: '4/26', trip: '回羽田', loc: '东京', ecmwf: '(不通)', tenki: '(不通)', temp: '14-18°C · JMA 曇時々晴 30% · yr.no 17.5mm 🔴 备伞' }
+    { d: '4/26', trip: '回羽田', loc: '东京', ecmwf: '(不通)', tenki: '(不通)', temp: '13-19°C · JMA 曇時々晴 30% · yr.no 33mm heavy 🔴 必备伞' }
   ],
 
   packing: [
